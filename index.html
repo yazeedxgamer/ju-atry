@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع براعم لجوجو</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* تعريف الخط الأساسي للجسم والخلفية المتدرجة الدافئة والداكنة */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #332e40, #221c27); /* لون بنفسجي داكن مائل للرمادي، حنون وثابت */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* إخفاء أشرطة التمرير الناتجة عن التحريكات */
+            position: relative; /* لجعل القلوب الخلفية تتموضع بالنسبة للجسم */
+        }
+        /* حاوية المحتوى الرئيسية بتصميم ناعم ومستدير وداكن */
+        .container {
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            text-align: center;
+            max-width: 90%;
+            position: relative;
+            z-index: 10; /* تأكد من أن المحتوى فوق القلوب المتحركة */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        /* تصميم نص "تم تصميمه بالكامل من أجل جوجو" بلون فاتح وتحريك عصري */
+        .text-jojo {
+            color: #f8bbd0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            animation: textGlowPulse 3s infinite alternate;
+            text-shadow: 0 0 5px rgba(248, 187, 208, 0.5);
+        }
+        /* أيقونة القلب مع تحريك نبض لطيف */
+        .heart-icon {
+            display: inline-block;
+            color: #f8bbd0;
+            margin-left: 0.5rem;
+            /* تحريك النبض للقلب يتم دمجه مع تحريك النص */
+        }
+
+        /* تصميم نص "نوم الهنا والعافية" */
+        .text-jojo-sub {
+            color: #e0f7fa;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        /* أيقونة Zzz مع تحريك لطيف */
+        .zzz-icon {
+            display: inline-block;
+            color: #e0f7fa;
+            margin-left: 0.5rem;
+            font-size: 1.8rem;
+            animation: zzzFloat 2s infinite alternate ease-in-out;
+        }
+
+        /* قلوب خلفية متحركة - الآن على كامل الشاشة */
+        .heart-shape {
+            position: absolute; /* تموضع مطلق بالنسبة للجسم */
+            background-color: rgba(255, 255, 255, 0.1); /* لون أبيض شفاف أكثر خفوتاً */
+            border-radius: 50%;
+            animation: pulseHeart 6s infinite ease-in-out; /* حركة نبض أبطأ للقلوب */
+            opacity: 0;
+            z-index: 0; /* تكون خلف المحتوى الرئيسي */
+            filter: blur(7px); /* تأثير ضبابي أكثر لمظهر أكثر نعومة وخفوت */
+        }
+        /* شكل القلب الحقيقي باستخدام pseudo-elements */
+        .heart-shape::before,
+        .heart-shape::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit; /* يرث لون القلب الرئيسي */
+            border-radius: 50%;
+        }
+        .heart-shape::before {
+            top: -50%;
+            left: 0;
+        }
+        .heart-shape::after {
+            top: 0;
+            left: 50%;
+            transform: rotate(90deg);
+            transform-origin: 0% 100%;
+        }
+
+        /* خصائص لكل قلب لتحريك وتموضع مختلف على كامل الشاشة */
+        .heart-shape:nth-child(1) {
+            width: 80px; height: 80px;
+            top: 10%; left: 15%;
+            animation-delay: 0s;
+            transform: rotate(-20deg);
+        }
+        .heart-shape:nth-child(2) {
+            width: 100px; height: 100px;
+            bottom: 5%; right: 10%;
+            animation-delay: 1s;
+            transform: rotate(30deg);
+        }
+        .heart-shape:nth-child(3) {
+            width: 60px; height: 60px;
+            top: 50%; left: 5%;
+            animation-delay: 2s;
+            transform: rotate(10deg);
+        }
+        .heart-shape:nth-child(4) {
+            width: 90px; height: 90px;
+            top: 20%; right: 25%;
+            animation-delay: 3s;
+            transform: rotate(-40deg);
+        }
+        .heart-shape:nth-child(5) {
+            width: 70px; height: 70px;
+            bottom: 20%; left: 30%;
+            animation-delay: 0.5s;
+            background-color: rgba(255, 204, 229, 0.1);
+            transform: rotate(50deg);
+        }
+        .heart-shape:nth-child(6) {
+            width: 50px; height: 50px;
+            top: 40%; right: 5%;
+            animation-delay: 2.5s;
+            background-color: rgba(179, 229, 252, 0.1);
+            transform: rotate(-10deg);
+        }
+        /* إضافة المزيد من القلوب لتغطية الشاشة بشكل أفضل */
+        .heart-shape:nth-child(7) {
+            width: 75px; height: 75px;
+            top: 70%; left: 18%;
+            animation-delay: 4s;
+            transform: rotate(15deg);
+        }
+        .heart-shape:nth-child(8) {
+            width: 85px; height: 85px;
+            top: 5%; right: 50%;
+            animation-delay: 1.5s;
+            transform: rotate(-35deg);
+        }
+        .heart-shape:nth-child(9) {
+            width: 65px; height: 65px;
+            bottom: 10%; left: 45%;
+            animation-delay: 3.5s;
+            transform: rotate(25deg);
+        }
+
+        /* تعريف تحريك النبض للقلوب */
+        @keyframes pulseHeart {
+            0% {
+                transform: scale(0) rotate(var(--rotation, 0deg));
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1) rotate(var(--rotation, 0deg));
+                opacity: 0.15;
+            }
+            100% {
+                transform: scale(0) rotate(var(--rotation, 0deg));
+                opacity: 0;
+            }
+        }
+
+        /* تعريف تحريك نبض القلب (الأيقونة الصغيرة) */
+        @keyframes beat {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* تحريك توهج ونبض النص (textGlowPulse) */
+        @keyframes textGlowPulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(248, 187, 208, 0.5);
+            }
+            50% {
+                transform: scale(1.02);
+                text-shadow: 0 0 15px rgba(248, 187, 208, 0.8), 0 0 25px rgba(248, 187, 208, 0.3);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(248, 187, 208, 0.5);
+            }
+        }
+
+        /* تحريك طفو Zzz */
+        @keyframes zzzFloat {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-8px); opacity: 0.7; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* تصميم زر التشغيل */
+        .play-button {
+            background-color: #7e57c2;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+            border: none;
+        }
+        .play-button:hover {
+            background-color: #673ab7;
+            transform: translateY(-2px);
+        }
+        .play-button:active {
+            transform: translateY(0);
+        }
+        .play-icon {
+            margin-left: 0.75rem;
+            font-size: 1.8rem;
+        }
+
+        /* أنماط خاصة بميزة توليد القصص */
+        .story-generator-section {
+            background-color: rgba(255, 255, 255, 0.08); /* خلفية خافتة للقسم */
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 2.5rem;
+            width: 100%;
+            max-width: 500px; /* تحديد أقصى عرض للقسم */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .story-generator-section textarea {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.15); /* خلفية خافتة لمربع النص */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            color: #e0f7fa; /* لون النص الفاتح */
+            font-size: 1rem;
+            resize: vertical; /* السماح بتغيير حجم مربع النص عمودياً */
+            min-height: 80px;
+            outline: none; /* إزالة الإطار عند التركيز */
+            transition: border-color 0.3s ease;
+        }
+        .story-generator-section textarea:focus {
+            border-color: #f8bbd0; /* لون وردي عند التركيز */
+        }
+        .story-generator-section button {
+            background-color: #f8bbd0; /* لون وردي للزر */
+            color: #332e40; /* لون النص الداكن */
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 1rem;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .story-generator-section button:hover {
+            background-color: #f48fb1; /* لون وردي أغمق عند التمرير */
+            transform: translateY(-2px);
+        }
+        .story-generator-section button:active {
+            transform: translateY(0);
+        }
+        .story-output {
+            background-color: rgba(255, 255, 255, 0.05); /* خلفية أغمق للقصة */
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            color: #e0f7fa; /* لون النص الفاتح */
+            font-size: 1rem;
+            text-align: right; /* محاذاة النص لليمين */
+            line-height: 1.6;
+            max-height: 250px; /* أقصى ارتفاع لمنطقة القصة */
+            overflow-y: auto; /* إضافة شريط تمرير إذا كانت القصة طويلة */
+            white-space: pre-wrap; /* للحفاظ على تنسيق النص والأسطر الجديدة */
+        }
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f8bbd0;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        .loading-indicator .spinner {
+            border: 4px solid rgba(248, 187, 208, 0.3);
+            border-top: 4px solid #f8bbd0;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin-left: 0.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* أنماط زر الاستماع للقصة */
+        .listen-button {
+            background-color: #81c784; /* لون أخضر لطيف */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 1rem;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .listen-button:hover {
+            background-color: #66bb6a;
+            transform: translateY(-2px);
+        }
+        .listen-button:active {
+            transform: translateY(0);
+        }
+        .listen-icon {
+            margin-left: 0.5rem;
+        }
+
+        /* تعديلات التصميم المتجاوب للشاشات الأصغر (الموبايل والتابلت) */
+        @media (max-width: 768px) {
+            .text-jojo {
+                font-size: 1.8rem;
+            }
+            .text-jojo-sub {
+                font-size: 1.2rem;
+            }
+            .zzz-icon {
+                font-size: 1.5rem;
+            }
+            .container {
+                padding: 1.5rem;
+                border-radius: 1.5rem;
+            }
+            .play-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1.2rem;
+            }
+            .play-icon {
+                font-size: 1.5rem;
+            }
+            /* تقليل أحجام القلوب على الشاشات الصغيرة */
+            .heart-shape:nth-child(1) { width: 50px; height: 50px; }
+            .heart-shape:nth-child(2) { width: 70px; height: 70px; }
+            .heart-shape:nth-child(3) { width: 30px; height: 30px; }
+            .heart-shape:nth-child(4) { width: 60px; height: 60px; }
+            .heart-shape:nth-child(5) { width: 40px; height: 40px; }
+            .heart-shape:nth-child(6) { width: 25px; height: 25px; }
+            .heart-shape:nth-child(7) { width: 55px; height: 55px; }
+            .heart-shape:nth-child(8) { width: 65px; height: 65px; }
+            .heart-shape:nth-child(9) { width: 45px; height: 45px; }
+
+            .story-generator-section {
+                padding: 1rem;
+                margin-top: 2rem;
+            }
+            .story-generator-section textarea {
+                font-size: 0.9rem;
+            }
+            .story-generator-section button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            .story-output {
+                font-size: 0.9rem;
+            }
+            .listen-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+        /* تعديلات التصميم المتجاوب للشاشات الأصغر جداً (الهواتف) */
+        @media (max-width: 480px) {
+            .text-jojo {
+                font-size: 1.5rem;
+            }
+            .text-jojo-sub {
+                font-size: 1rem;
+            }
+            .zzz-icon {
+                font-size: 1.2rem;
+            }
+            .container {
+                padding: 1rem;
+                border-radius: 1rem;
+            }
+            /* إخفاء القلوب على الشاشات الصغيرة جداً لتجنب الازدحام الشديد */
+            .heart-shape {
+                display: none;
+            }
+            .story-generator-section {
+                padding: 0.8rem;
+                margin-top: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-shape" style="top: 10%; left: 15%; --rotation: -20deg;"></div>
+    <div class="heart-shape" style="bottom: 5%; right: 10%; --rotation: 30deg;"></div>
+    <div class="heart-shape" style="top: 50%; left: 5%; --rotation: 10deg;"></div>
+    <div class="heart-shape" style="top: 20%; right: 25%; --rotation: -40deg;"></div>
+    <div class="heart-shape" style="bottom: 20%; left: 30%; --rotation: 50deg;"></div>
+    <div class="heart-shape" style="top: 40%; right: 5%; --rotation: -10deg;"></div>
+    <div class="heart-shape" style="top: 70%; left: 18%; --rotation: 15deg;"></div>
+    <div class="heart-shape" style="top: 5%; right: 50%; --rotation: -35deg;"></div>
+    <div class="heart-shape" style="bottom: 10%; left: 45%; --rotation: 25deg;"></div>
+
+    <div class="container">
+        <h1 class="text-jojo">
+            تم تصميمه بالكامل من أجل جوجو <span class="heart-icon">❤️</span>
+        </h1>
+        <p class="text-jojo-sub">
+            نوم الهنا والعافية <span class="zzz-icon">Zzz</span>
+        </p>
+
+        <div id="audioPrompt" class="flex flex-col items-center justify-center">
+            <p class="text-gray-300 text-lg mb-4">الرجاء النقر لتشغيل أغنية براعم!</p>
+            <button id="playButton" class="play-button">
+                تشغيل الأغنية
+                <svg class="play-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+            <p id="errorMessage" class="text-red-400 text-sm mt-2 hidden">
+                عذراً، فشل تشغيل الأغنية. يرجى التأكد من أن رابط الأغنية صحيح ومباشر (ينتهي بـ .mp3).
+            </p>
+        </div>
+
+        <audio id="baraemAudio" loop>
+            <source src="https://archive.org/download/baraem-song/baraem-song.mp3" type="audio/mpeg">
+            متصفحك لا يدعم تشغيل الصوت.
+        </audio>
+
+        <div class="story-generator-section">
+            <h2 class="text-lg font-bold text-f8bbd0 mb-4">✨ قصة نوم لجوجو ✨</h2>
+            <textarea id="storyPromptInput" placeholder="اكتب فكرة للقصة هنا (مثال: عن أرنب صغير، عن نجمة لامعة)"></textarea>
+            <button id="generateStoryButton">
+                تأليف القصة ✨
+            </button>
+            <div id="loadingIndicator" class="loading-indicator hidden">
+                <div class="spinner"></div>
+                <span class="mr-2">جاري توليد القصة...</span>
+            </div>
+            <div id="storyOutput" class="story-output hidden"></div>
+            <button id="listenStoryButton" class="listen-button hidden">
+                استمع للقصة
+                <svg class="listen-icon w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.616 3.89a1 1 0 011.768 0 1 1 0 010 1.768l-1.768 1.768a1 1 0 01-1.768 0 1 1 0 010-1.768l2.5-2.5a1 1 0 010-1.414zM16.03 7.303a1 1 0 011.414 0 1 1 0 010 1.414L14.414 11l3.03 3.03a1 1 0 01-1.414 1.414L13 12.414l-3.03 3.03a1 1 0 01-1.414-1.414L11.586 11l-3.03-3.03a1 1 0 010-1.414 1 1 0 011.414 0L13 9.586l3.03-3.03z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const audio = document.getElementById('baraemAudio');
+        const playButton = document.getElementById('playButton');
+        const audioPrompt = document.getElementById('audioPrompt');
+        const errorMessage = document.getElementById('errorMessage');
+
+        const storyPromptInput = document.getElementById('storyPromptInput');
+        const generateStoryButton = document.getElementById('generateStoryButton');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const storyOutput = document.getElementById('storyOutput');
+        const listenStoryButton = document.getElementById('listenStoryButton'); // الحصول على زر الاستماع
+
+        playButton.addEventListener('click', () => {
+            audio.play()
+                .then(() => {
+                    audioPrompt.style.display = 'none';
+                    errorMessage.classList.add('hidden');
+                    console.log('تم تشغيل الصوت بنجاح.');
+                })
+                .catch(error => {
+                    console.error('فشل تشغيل الصوت:', error);
+                    errorMessage.classList.remove('hidden');
+                });
+        });
+
+        // وظيفة لتوليد القصة باستخدام Gemini API
+        generateStoryButton.addEventListener('click', async () => {
+            const promptText = storyPromptInput.value.trim();
+            if (!promptText) {
+                storyOutput.textContent = 'الرجاء إدخال فكرة للقصة أولاً.';
+                storyOutput.classList.remove('hidden');
+                listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع إذا لم تكن هناك قصة
+                return;
+            }
+
+            loadingIndicator.classList.remove('hidden');
+            storyOutput.classList.add('hidden');
+            listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع أثناء التوليد
+            storyOutput.textContent = ''; // مسح أي قصة سابقة
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: `اكتب قصة نوم قصيرة وهادئة ولطيفة للأطفال عن: ${promptText}. يجب أن تكون القصة مناسبة للأطفال الصغار وتساعدهم على الاسترخاء والنوم. اجعلها حوالي 100-150 كلمة. لا تستخدم أي مقدمات أو خاتمات للقصة، فقط نص القصة.` }] });
+                const payload = { contents: chatHistory };
+                // IMPORTANT: Replace "YOUR_GEMINI_API_KEY_HERE" with your actual Gemini API Key.
+                // You can get one from Google AI Studio: https://aistudio.google.com/app/apikey
+                const apiKey = "AIzaSyDjr_8VTvu1rbfvyH6WtzOm7776aJ0kBBo"; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const story = result.candidates[0].content.parts[0].text;
+                    storyOutput.textContent = story;
+                    storyOutput.classList.remove('hidden');
+                    listenStoryButton.classList.remove('hidden'); // إظهار زر الاستماع بعد توليد القصة بنجاح
+                } else {
+                    storyOutput.textContent = 'عذراً، لم أتمكن من توليد القصة. الرجاء المحاولة مرة أخرى.';
+                    storyOutput.classList.remove('hidden');
+                    listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع في حالة الفشل
+                    console.error('استجابة غير متوقعة من Gemini API:', result);
+                }
+            } catch (error) {
+                console.error('خطأ في استدعاء Gemini API:', error);
+                storyOutput.textContent = 'حدث خطأ أثناء توليد القصة. الرجاء التحقق من اتصالك بالإنترنت أو المحاولة لاحقاً.';
+                storyOutput.classList.remove('hidden');
+                listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع في حالة الخطأ
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        });
+
+        // وظيفة تحويل النص إلى كلام
+        listenStoryButton.addEventListener('click', () => {
+            const storyText = storyOutput.textContent;
+            if (storyText && 'speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(storyText);
+                // محاولة تعيين اللغة إلى العربية السعودية.
+                // ملاحظة: دعم اللهجات الإقليمية (مثل السعودية) يختلف بشكل كبير بين المتصفحات وأنظمة التشغيل.
+                // قد لا يتم العرف على 'ar-SA' بشكل محدد، وقد يتم استخدام صوت عربي فصحى أو صوت عربي عام بدلاً من ذلك.
+                utterance.lang = 'ar-SA'; 
+
+                // البحث عن صوت عربي إذا كان متوفراً
+                const voices = window.speechSynthesis.getVoices();
+                const arabicVoice = voices.find(voice => voice.lang === 'ar-SA' || voice.lang.startsWith('ar-') && voice.name.includes('Arabic'));
+                if (arabicVoice) {
+                    utterance.voice = arabicVoice;
+                } else {
+                    console.warn('لم يتم العثور على صوت عربي سعودي محدد. سيتم استخدام الصوت الافتراضي أو أفضل صوت عربي متاح.');
+                }
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.error('متصفحك لا يدعم تحويل النص إلى كلام أو لا توجد قصة لتشغيلها.');
+                // يمكنك عرض رسالة للمستخدم هنا
+            }
+        });
+
+        window.onload = function() {
+            console.log('الصفحة جاهزة. الرجاء النقر على زر التشغيل.');
+        };
+    </script>
+</body>
+</html>
