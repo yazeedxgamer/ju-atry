@@ -2013,7 +2013,7 @@
             <h2 class="text-blue-200 mb-4">🎮 ألعاب جوجو 🎮</h2>
 
             <div class="match3-game">
-                <h3>لعبة مطابقة الرموز (كاندي كراش) 🍬</h3>
+                <h3>لعبة كاندي كراش 🍬</h3>
                 <p class="match3-score">النقاط: 0</p>
                 <p class="match3-moves">الحركات المتبقية: 20</p>
                 <div id="match3Grid" class="match3-grid-container"></div>
@@ -3088,7 +3088,7 @@
 
         function initializeColorMatchGame() {
             colorMatchScore = 0;
-            colorMatchScoreDisplay.textContent = `النقاط: 0`;
+            colorMatchScoreDisplay.textContent = `النقاط: ${colorMatchScore}`;
             colorMatchMessage.textContent = '';
             colorChoicesGrid.innerHTML = ''; // Clear previous choices
             colorGameActive = true;
