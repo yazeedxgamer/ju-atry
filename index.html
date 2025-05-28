@@ -669,6 +669,7 @@
             border-radius: 1rem;
             padding: 15px;
             max-width: 360px; /* (100*3) + (15*2) + (15*2) = 300 + 30 + 30 = 360px */
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .mole-hole {
             width: 100px;
@@ -743,6 +744,7 @@
             overflow: hidden; /* Keep bubbles inside */
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
             margin-bottom: 1rem;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .bubble {
             position: absolute;
@@ -822,6 +824,7 @@
             grid-template-columns: repeat(2, 100px); /* 2 columns */
             gap: 15px;
             margin-bottom: 1.5rem;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .color-choice-button {
             width: 100px;
@@ -885,6 +888,7 @@
             overflow: hidden;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
             margin-bottom: 1rem;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .falling-star {
             position: absolute;
@@ -1033,6 +1037,7 @@
             border-radius: 1rem;
             padding: 15px;
             max-width: 360px;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .number-hole {
             width: 100px;
@@ -1111,6 +1116,7 @@
             transition: background-color 0.1s ease-in-out;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             margin-bottom: 1rem;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .reaction-button.ready {
             background-color: #FFD700; /* Gold */
@@ -1172,6 +1178,7 @@
             border-radius: 1rem;
             padding: 15px;
             max-width: 230px; /* (100*2) + (15*1) + (15*2) = 200 + 15 + 30 = 245px, adjusted */
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .sequence-button {
             width: 100px;
@@ -1238,6 +1245,7 @@
             border-radius: 0.5rem;
             padding: 5px;
             max-width: calc(8 * 40px + 7 * 2px + 10px); /* Adjust for gap and padding */
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .match3-cell {
             width: 40px;
@@ -1308,6 +1316,7 @@
             gap: 1rem;
             justify-content: center;
             margin-bottom: 1.5rem;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .draggable-item {
             background-color: #b3e5fc;
@@ -1327,6 +1336,7 @@
             gap: 1.5rem;
             flex-wrap: wrap;
             justify-content: center;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .drop-zone {
             background-color: rgba(255, 255, 255, 0.1);
@@ -1398,6 +1408,7 @@
             overflow: hidden;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
             margin-bottom: 1rem;
+            touch-action: none; /* Prevent scrolling on touch */
         }
         .target-button {
             position: absolute;
@@ -2013,7 +2024,7 @@
             <h2 class="text-blue-200 mb-4">🎮 ألعاب جوجو 🎮</h2>
 
             <div class="match3-game">
-                <h3>لعبة كاندي كراش 🍬</h3>
+                <h3>لعبة مطابقة الرموز (كاندي كراش) 🍬</h3>
                 <p class="match3-score">النقاط: 0</p>
                 <p class="match3-moves">الحركات المتبقية: 20</p>
                 <div id="match3Grid" class="match3-grid-container"></div>
@@ -3254,7 +3265,7 @@
         let lastX = 0;
         let lastY = 0;
 
-        // Set canvas dimensions dynamically
+        // Set canvas dimensions dynamically and draw initial white background
         function resizeCanvas() {
             drawingCanvas.width = drawingCanvas.offsetWidth;
             drawingCanvas.height = drawingCanvas.offsetHeight;
@@ -3265,51 +3276,58 @@
         // Initial resize and on window resize
         window.addEventListener('resize', resizeCanvas);
         // Call resizeCanvas after the DOM is ready and canvas is rendered
-        setTimeout(resizeCanvas, 100); // Small delay to ensure offsetWidth/Height are correct
+        function initializeDrawingPad() {
+            requestAnimationFrame(() => {
+                resizeCanvas();
+            });
+        }
 
-        function draw(e) {
+        // Function to start a new drawing path
+        function startDrawing(x, y) {
+            isDrawing = true;
+            [lastX, lastY] = [x, y];
+            ctx.beginPath(); // Start a new path for this stroke
+            ctx.moveTo(lastX, lastY); // Move to the starting point of the stroke
+        }
+
+        // Function to draw during a stroke
+        function draw(x, y) {
             if (!isDrawing) return;
             ctx.strokeStyle = colorPicker.value;
             ctx.lineWidth = brushSize.value;
             ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-            [lastX, lastY] = [e.offsetX, e.offsetY];
+            ctx.lineTo(x, y); // Draw line to current position
+            ctx.stroke(); // Stroke the current path
+            [lastX, lastY] = [x, y]; // Update last position for the next segment
         }
 
+        // Mouse events
         drawingCanvas.addEventListener('mousedown', (e) => {
-            isDrawing = true;
-            [lastX, lastY] = [e.offsetX, e.offsetY];
+            startDrawing(e.offsetX, e.offsetY);
         });
-        drawingCanvas.addEventListener('mousemove', draw);
+        drawingCanvas.addEventListener('mousemove', (e) => {
+            draw(e.offsetX, e.offsetY);
+        });
         drawingCanvas.addEventListener('mouseup', () => isDrawing = false);
         drawingCanvas.addEventListener('mouseout', () => isDrawing = false);
 
         // Touch events for drawing
         drawingCanvas.addEventListener('touchstart', (e) => {
             e.preventDefault(); // Prevent scrolling
-            isDrawing = true;
             const touch = e.touches[0];
             const rect = drawingCanvas.getBoundingClientRect();
-            lastX = touch.clientX - rect.left;
-            lastY = touch.clientY - rect.top;
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            startDrawing(x, y);
         }, { passive: false });
 
         drawingCanvas.addEventListener('touchmove', (e) => {
             e.preventDefault(); // Prevent scrolling
-            if (!isDrawing) return;
             const touch = e.touches[0];
             const rect = drawingCanvas.getBoundingClientRect();
-            ctx.strokeStyle = colorPicker.value;
-            ctx.lineWidth = brushSize.value;
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-            ctx.stroke();
-            [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            draw(x, y);
         }, { passive: false });
 
         drawingCanvas.addEventListener('touchend', () => isDrawing = false);
@@ -4220,7 +4238,7 @@
             createMoleHoles(); // Create mole holes for Whack-a-Mole
             initializeColorMatchGame(); // Initialize Color Match game on load
             createNumberHoles(); // Create holes for Whack-a-Number
-            resizeCanvas(); // Initial resize for drawing canvas
+            initializeDrawingPad(); // Initial resize for drawing canvas
             initializeMemorySequenceGame(); // Initialize Memory Sequence game
             initializeMatch3Game(); // Initialize Match 3 game
             initializeSortingGame(); // Initialize Sorting Game
