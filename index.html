@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع براعم جوجو</title>
+    <title>sموقع براعم جوجو</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -3704,7 +3704,11 @@
                 const cell = document.createElement('div');
                 cell.classList.add('match3-cell');
                 cell.dataset.index = i;
-                cell.draggable = true;
+                // Add touch event listeners for drag-like behavior
+                cell.addEventListener('touchstart', handleMatch3TouchStart, { passive: false });
+                cell.addEventListener('touchmove', handleMatch3TouchMove, { passive: false });
+                cell.addEventListener('touchend', handleMatch3TouchEnd);
+                // Keep mouse events for desktop
                 cell.addEventListener('dragstart', handleMatch3DragStart);
                 cell.addEventListener('dragover', handleMatch3DragOver);
                 cell.addEventListener('drop', handleMatch3Drop);
@@ -3739,6 +3743,7 @@
             }
         }
 
+        // Mouse Drag Events (existing)
         function handleMatch3DragStart(e) {
             if (!match3GameRunning || isProcessingMatch) {
                 e.preventDefault();
@@ -3789,6 +3794,70 @@
             selectedCell = null;
         }
 
+        // Touch Drag Events (NEW)
+        let touchStartCell = null; // The cell where touch started
+        let touchStartTime = 0; // To differentiate tap from drag
+
+        function handleMatch3TouchStart(e) {
+            if (!match3GameRunning || isProcessingMatch) {
+                e.preventDefault(); // Prevent default if game not running or processing
+                return;
+            }
+            e.preventDefault(); // Prevent scrolling and text selection
+            touchStartCell = e.target;
+            touchStartTime = Date.now();
+            touchStartCell.classList.add('dragging'); // Visual feedback for touch start
+        }
+
+        function handleMatch3TouchMove(e) {
+            if (!match3GameRunning || isProcessingMatch) return;
+            e.preventDefault(); // Prevent scrolling during touch move
+            // No need for complex visual feedback during touchmove for this simple game
+        }
+
+        function handleMatch3TouchEnd(e) {
+            if (!match3GameRunning || isProcessingMatch) return;
+            
+            const touchDuration = Date.now() - touchStartTime;
+            if (touchDuration < 200) { // Consider it a tap if very short, not a drag
+                touchStartCell.classList.remove('dragging');
+                touchStartCell = null;
+                return;
+            }
+
+            const touch = e.changedTouches[0];
+            const endX = touch.clientX;
+            const endY = touch.clientY;
+
+            // Find the element at the touch end coordinates
+            const droppedCell = document.elementFromPoint(endX, endY);
+
+            if (touchStartCell && droppedCell && droppedCell.classList.contains('match3-cell')) {
+                const draggedIndex = parseInt(touchStartCell.dataset.index);
+                const droppedIndex = parseInt(droppedCell.dataset.index);
+
+                const draggedRow = Math.floor(draggedIndex / gridSize);
+                const draggedCol = draggedIndex % gridSize;
+                const droppedRow = Math.floor(droppedIndex / gridSize);
+                const droppedCol = droppedIndex % gridSize;
+
+                const isAdjacent = (
+                    (Math.abs(draggedRow - droppedRow) === 1 && draggedCol === droppedCol) || // Vertical
+                    (Math.abs(draggedCol - droppedCol) === 1 && draggedRow === droppedRow)    // Horizontal
+                );
+
+                if (isAdjacent) {
+                    swapCells(draggedIndex, droppedIndex);
+                    match3Moves--;
+                    match3MovesDisplay.textContent = `الحركات المتبقية: ${match3Moves}`;
+                    setTimeout(processBoard, 500);
+                }
+            }
+            touchStartCell.classList.remove('dragging');
+            touchStartCell = null;
+        }
+
+
         function swapCells(index1, index2) {
             const tempEmoji = match3Board[index1];
             match3Board[index1] = match3Board[index2];
@@ -3807,7 +3876,7 @@
                 setTimeout(() => {
                     dropEmojis();
                     fillBoard();
-                    setTimeout(processBoard, 500); // Recursively process until no more matches
+                    setTimeout(processBoard, 600); // Recursively process until no more matches
                 }, 600); // Wait for fadeOut animation
             } else {
                 // No matches after swap, swap back if it was a valid move but no match
@@ -3905,7 +3974,9 @@
         let currentSortingItems = [];
         let sortingScore = 0;
         let totalItems = 0;
-        let draggedItem = null;
+        let draggedItem = null; // For mouse drag
+        let touchDraggedItem = null; // For touch drag
+        let touchCurrentDropZone = null; // For touch drag
 
         function initializeSortingGame() {
             sortingScore = 0;
@@ -3913,7 +3984,10 @@
             sortingScoreDisplay.textContent = `النقاط: ${sortingScore}`;
             sortingMessage.textContent = '';
             sortingItemsContainer.innerHTML = '';
-            dropZones.forEach(zone => zone.innerHTML = zone.dataset.category === 'fruits' ? 'فواكه 🍎' : (zone.dataset.category === 'animals' ? 'حيوانات 🦁' : 'مركبات 🚗')); // Reset drop zone content
+            dropZones.forEach(zone => {
+                zone.innerHTML = zone.dataset.category === 'fruits' ? 'فواكه 🍎' : (zone.dataset.category === 'animals' ? 'حيوانات 🦁' : 'مركبات 🚗'); // Reset drop zone content
+                zone.classList.remove('drag-over'); // Ensure no lingering drag-over class
+            });
 
             currentSortingItems = [];
             const allItems = [];
@@ -3932,19 +4006,27 @@
                 const itemElement = document.createElement('div');
                 itemElement.classList.add('draggable-item');
                 itemElement.textContent = item.emoji;
-                itemElement.draggable = true;
+                itemElement.draggable = true; // Enable for mouse drag
                 itemElement.dataset.category = item.category;
+                // Mouse event listeners
                 itemElement.addEventListener('dragstart', handleSortingDragStart);
+                // Touch event listeners
+                itemElement.addEventListener('touchstart', handleSortingTouchStart, { passive: false });
+                itemElement.addEventListener('touchmove', handleSortingTouchMove, { passive: false });
+                itemElement.addEventListener('touchend', handleSortingTouchEnd);
                 sortingItemsContainer.appendChild(itemElement);
             });
 
             dropZones.forEach(zone => {
+                // Mouse event listeners
                 zone.addEventListener('dragover', handleSortingDragOver);
                 zone.addEventListener('dragleave', handleSortingDragLeave);
                 zone.addEventListener('drop', handleSortingDrop);
+                // Touch event listeners (for drop zones) - these are handled by the touchDraggedItem logic
             });
         }
 
+        // Mouse Drag Events (existing)
         function handleSortingDragStart(e) {
             draggedItem = e.target;
             e.dataTransfer.setData('text/plain', draggedItem.dataset.category);
@@ -3977,7 +4059,90 @@
             } else {
                 sortingMessage.textContent = 'خطأ! هذا مو مكانه. 😔';
             }
+            draggedItem = null; // Clear dragged item
         }
+
+        // Touch Drag Events (NEW)
+        function handleSortingTouchStart(e) {
+            e.preventDefault(); // Prevent scrolling and text selection
+            touchDraggedItem = e.target;
+            touchDraggedItem.style.position = 'absolute'; // Allow moving
+            touchDraggedItem.style.zIndex = 1000; // Bring to front
+            // Store initial touch position relative to the item
+            const rect = touchDraggedItem.getBoundingClientRect();
+            touchDraggedItem.offsetX = e.touches[0].clientX - rect.left;
+            touchDraggedItem.offsetY = e.touches[0].clientY - rect.top;
+        }
+
+        function handleSortingTouchMove(e) {
+            e.preventDefault(); // Prevent scrolling during touch move
+            if (!touchDraggedItem) return;
+
+            const touch = e.touches[0];
+            // Update item position based on touch
+            touchDraggedItem.style.left = `${touch.clientX - touchDraggedItem.offsetX}px`;
+            touchDraggedItem.style.top = `${touch.clientY - touchDraggedItem.offsetY}px`;
+
+            // Check for potential drop zone
+            const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+
+            // Remove 'drag-over' from previous zone
+            if (touchCurrentDropZone && touchCurrentDropZone !== elementUnderTouch) {
+                touchCurrentDropZone.classList.remove('drag-over');
+                touchCurrentDropZone = null;
+            }
+
+            // Add 'drag-over' to current zone
+            if (elementUnderTouch && elementUnderTouch.classList.contains('drop-zone')) {
+                elementUnderTouch.classList.add('drag-over');
+                touchCurrentDropZone = elementUnderTouch;
+            }
+        }
+
+        function handleSortingTouchEnd(e) {
+            if (!touchDraggedItem) return;
+
+            const touch = e.changedTouches[0];
+            const endX = touch.clientX;
+            const endY = touch.clientY;
+
+            const finalDropElement = document.elementFromPoint(endX, endY);
+
+            if (finalDropElement && finalDropElement.classList.contains('drop-zone')) {
+                const droppedCategory = finalDropElement.dataset.category;
+                const draggedCategory = touchDraggedItem.dataset.category;
+
+                if (droppedCategory === draggedCategory) {
+                    sortingScore++;
+                    sortingScoreDisplay.textContent = `النقاط: ${sortingScore}`;
+                    sortingMessage.textContent = 'كفو! صح عليك! 🎉';
+                    touchDraggedItem.remove(); // Remove item from display
+                    checkSortingGameEnd();
+                } else {
+                    sortingMessage.textContent = 'خطأ! هذا مو مكانه. 😔';
+                    // Reset position if dropped in wrong place
+                    touchDraggedItem.style.position = '';
+                    touchDraggedItem.style.zIndex = '';
+                    touchDraggedItem.style.left = '';
+                    touchDraggedItem.style.top = '';
+                }
+            } else {
+                sortingMessage.textContent = 'لم يتم الإفلات في مكان صحيح. 🤷‍♀️';
+                // Reset position if not dropped in any valid zone
+                touchDraggedItem.style.position = '';
+                touchDraggedItem.style.zIndex = '';
+                touchDraggedItem.style.left = '';
+                touchDraggedItem.style.top = '';
+            }
+
+            // Clean up
+            if (touchCurrentDropZone) {
+                touchCurrentDropZone.classList.remove('drag-over');
+            }
+            touchDraggedItem = null;
+            touchCurrentDropZone = null;
+        }
+
 
         function checkSortingGameEnd() {
             if (sortingItemsContainer.children.length === 0) {
