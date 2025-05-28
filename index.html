@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع براعم لجوجو</title>
+    <title>موقع براعم جوجو</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -12,12 +12,14 @@
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(135deg, #332e40, #221c27); /* لون بنفسجي داكن مائل للرمادي، حنون وثابت */
             display: flex;
+            flex-direction: column; /* Allow content to stack vertically */
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Ensure background covers full viewport height */
             margin: 0;
-            overflow: hidden; /* إخفاء أشرطة التمرير الناتجة عن التحريكات */
             position: relative; /* لجعل القلوب الخلفية تتموضع بالنسبة للجسم */
+            padding-bottom: 3rem; /* Add some padding at the bottom for scrolling content */
+            padding-top: 2rem; /* Add some padding at the top */
         }
         /* حاوية المحتوى الرئيسية بتصميم ناعم ومستدير وداكن */
         .container {
@@ -27,9 +29,10 @@
             padding: 2.5rem;
             text-align: center;
             max-width: 90%;
+            width: 100%; /* Ensure it takes full width within max-width */
             position: relative;
             z-index: 10; /* تأكد من أن المحتوى فوق القلوب المتحركة */
-            overflow: hidden;
+            overflow: hidden; /* Keep overflow hidden for the container itself */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -235,8 +238,8 @@
             font-size: 1.8rem;
         }
 
-        /* أنماط خاصة بميزة توليد القصص */
-        .story-generator-section {
+        /* أنماط خاصة بميزات Gemini API */
+        .gemini-feature-section {
             background-color: rgba(255, 255, 255, 0.08); /* خلفية خافتة للقسم */
             border-radius: 1rem;
             padding: 1.5rem;
@@ -248,7 +251,13 @@
             flex-direction: column;
             align-items: center;
         }
-        .story-generator-section textarea {
+        .gemini-feature-section h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .gemini-feature-section textarea,
+        .gemini-feature-section input[type="text"] {
             width: 100%;
             background-color: rgba(255, 255, 255, 0.15); /* خلفية خافتة لمربع النص */
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -260,11 +269,16 @@
             min-height: 80px;
             outline: none; /* إزالة الإطار عند التركيز */
             transition: border-color 0.3s ease;
+            margin-bottom: 1rem;
         }
-        .story-generator-section textarea:focus {
+        .gemini-feature-section input[type="text"] {
+            min-height: auto; /* Override min-height for single-line input */
+        }
+        .gemini-feature-section textarea:focus,
+        .gemini-feature-section input[type="text"]:focus {
             border-color: #f8bbd0; /* لون وردي عند التركيز */
         }
-        .story-generator-section button {
+        .gemini-feature-section button {
             background-color: #f8bbd0; /* لون وردي للزر */
             color: #332e40; /* لون النص الداكن */
             padding: 0.75rem 1.5rem;
@@ -273,20 +287,20 @@
             font-weight: 700;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .story-generator-section button:hover {
+        .gemini-feature-section button:hover {
             background-color: #f48fb1; /* لون وردي أغمق عند التمرير */
             transform: translateY(-2px);
         }
-        .story-generator-section button:active {
+        .gemini-feature-section button:active {
             transform: translateY(0);
         }
-        .story-output {
+        .gemini-output {
             background-color: rgba(255, 255, 255, 0.05); /* خلفية أغمق للقصة */
             border-radius: 0.75rem;
             padding: 1rem;
@@ -298,6 +312,7 @@
             max-height: 250px; /* أقصى ارتفاع لمنطقة القصة */
             overflow-y: auto; /* إضافة شريط تمرير إذا كانت القصة طويلة */
             white-space: pre-wrap; /* للحفاظ على تنسيق النص والأسطر الجديدة */
+            width: 100%;
         }
         .loading-indicator {
             display: flex;
@@ -348,6 +363,524 @@
             margin-left: 0.5rem;
         }
 
+        /* أنماط قسم الألعاب */
+        .games-section {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .games-section h2 {
+            color: #b3e5fc; /* لون أزرق فاتح للعناوين */
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 5px rgba(179, 229, 252, 0.5);
+        }
+
+        /* أنماط لعبة X-O (Tic-Tac-Toe) */
+        .tic-tac-toe-game {
+            margin-bottom: 2rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .tic-tac-toe-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .tic-tac-toe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            grid-template-rows: repeat(3, 80px);
+            gap: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 5px;
+        }
+        .tic-tac-toe-cell {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: #f8bbd0; /* لون اللاعب X */
+            transition: background-color 0.2s ease;
+        }
+        .tic-tac-toe-cell.o {
+            color: #81c784; /* لون اللاعب O */
+        }
+        .tic-tac-toe-cell:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+        .tic-tac-toe-reset-button {
+            background-color: #7e57c2;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 1rem;
+            border: none;
+        }
+        .tic-tac-toe-reset-button:hover {
+            background-color: #673ab7;
+            transform: translateY(-2px);
+        }
+
+        /* أنماط لعبة حجر ورقة مقص (Rock-Paper-Scissors) */
+        .rps-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem; /* Add margin to separate from next game */
+        }
+        .rps-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .rps-choices {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .rps-choice-button {
+            background-color: #f8bbd0;
+            color: #332e40;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .rps-choice-button:hover {
+            background-color: #f48fb1;
+            transform: translateY(-3px);
+        }
+        .rps-choice-button:active {
+            transform: translateY(0);
+        }
+        .rps-result {
+            color: #e0f7fa;
+            font-size: 1.2rem;
+            font-weight: 700;
+            min-height: 30px; /* للحفاظ على المساحة حتى لو لم يكن هناك نص */
+        }
+
+        /* أنماط لعبة تخمين الرقم (Guess the Number) */
+        .guess-number-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .guess-number-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .guess-number-game input[type="number"] {
+            width: 100px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            color: #e0f7fa;
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        .guess-number-game input[type="number"]:focus {
+            border-color: #b3e5fc;
+        }
+        .guess-number-game button {
+            background-color: #b3e5fc; /* لون أزرق فاتح للزر */
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .guess-number-game button:hover {
+            background-color: #81d4fa;
+            transform: translateY(-2px);
+        }
+        .guess-number-game button:active {
+            transform: translateY(0);
+        }
+        .guess-number-game .message {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            min-height: 25px; /* للحفاظ على المساحة */
+        }
+        .guess-number-game .reset-button {
+            background-color: #7e57c2;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 1rem;
+            border: none;
+        }
+        .guess-number-game .reset-button:hover {
+            background-color: #673ab7;
+            transform: translateY(-2px);
+        }
+
+        /* أنماط لعبة الذاكرة (Memory Match) */
+        .memory-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .memory-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 70px); /* 4 أعمدة */
+            grid-template-rows: repeat(4, 70px); /* 4 صفوف */
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 10px;
+            max-width: 320px; /* (70*4) + (10*3) + (10*2) = 280 + 30 + 20 = 330px, adjusted for padding */
+        }
+        .memory-card {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            transform-style: preserve-3d; /* للحفاظ على ثلاثية الأبعاد عند التقليب */
+            position: relative;
+        }
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+        .memory-card.matched {
+            background-color: #81c784; /* لون أخضر للمطابقة */
+            cursor: default;
+            opacity: 0.8;
+        }
+        .memory-card .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* إخفاء الوجه الخلفي عند عدم التقليب */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .memory-card .card-front {
+            transform: rotateY(180deg); /* الوجه الأمامي يظهر عند التقليب */
+        }
+        .memory-card .card-back {
+            background-color: #7e57c2; /* لون خلفية البطاقة */
+            border-radius: 0.75rem;
+        }
+        .memory-status {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            min-height: 25px;
+        }
+        .memory-reset-button {
+            background-color: #7e57c2;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 1rem;
+            border: none;
+        }
+        .memory-reset-button:hover {
+            background-color: #673ab7;
+            transform: translateY(-2px);
+        }
+
+        /* أنماط لعبة اضرب الخلد (Whack-a-Mole) */
+        .whack-a-mole-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .whack-a-mole-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .whack-a-mole-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 100px); /* 3 أعمدة */
+            grid-template-rows: repeat(3, 100px); /* 3 صفوف */
+            gap: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 15px;
+            max-width: 360px; /* (100*3) + (15*2) + (15*2) = 300 + 30 + 30 = 360px */
+        }
+        .mole-hole {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%; /* شكل دائري للحفرة */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .mole-emoji {
+            font-size: 3.5rem;
+            position: absolute;
+            bottom: -100%; /* يبدأ مخفيًا تحت الحفرة */
+            transition: bottom 0.2s ease-out;
+            cursor: pointer;
+        }
+        .mole-emoji.up {
+            bottom: 0; /* يظهر فوق الحفرة */
+        }
+        .whack-a-mole-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .whack-a-mole-button {
+            background-color: #f8bbd0;
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .whack-a-mole-button:hover {
+            background-color: #f48fb1;
+            transform: translateY(-2px);
+        }
+        .whack-a-mole-button:active {
+            transform: translateY(0);
+        }
+        .whack-a-mole-score, .whack-a-mole-time {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        /* أنماط لعبة فرقعة الفقاعات (Pop the Bubble) */
+        .bubble-pop-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .bubble-pop-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .bubble-area {
+            width: 100%;
+            height: 300px; /* Fixed height for the game area */
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden; /* Keep bubbles inside */
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+        }
+        .bubble {
+            position: absolute;
+            background-color: rgba(179, 229, 252, 0.6); /* لون أزرق فاتح وشفاف */
+            border-radius: 50%;
+            cursor: pointer;
+            animation: bubbleFloat 5s linear infinite;
+            opacity: 0;
+            transform: scale(0);
+            transition: transform 0.1s ease-out; /* For pop effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Emoji size */
+            color: #332e40;
+            font-weight: bold;
+        }
+        .bubble:active {
+            transform: scale(1.2); /* Pop effect */
+        }
+        @keyframes bubbleFloat {
+            0% { bottom: -20%; opacity: 0; transform: scale(0.5); }
+            10% { opacity: 1; transform: scale(1); }
+            90% { opacity: 1; transform: scale(1); }
+            100% { bottom: 120%; opacity: 0; transform: scale(0.5); }
+        }
+        .bubble-pop-score, .bubble-pop-time {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        .bubble-pop-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .bubble-pop-button {
+            background-color: #b3e5fc;
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .bubble-pop-button:hover {
+            background-color: #81d4fa;
+            transform: translateY(-2px);
+        }
+
+        /* أنماط لعبة مطابقة الألوان (Color Match) */
+        .color-match-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .color-match-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .target-color-display {
+            width: 120px;
+            height: 120px;
+            border-radius: 1rem;
+            background-color: #ccc; /* Placeholder */
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+        .color-choices-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 100px); /* 2 columns */
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+        .color-choice-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 1rem;
+            background-color: #eee; /* Placeholder */
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .color-choice-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .color-match-message {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            min-height: 25px;
+        }
+        .color-match-score {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        .color-match-reset-button {
+            background-color: #7e57c2;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 1rem;
+            border: none;
+        }
+        .color-match-reset-button:hover {
+            background-color: #673ab7;
+            transform: translateY(-2px);
+        }
+
+        /* أنماط خاصة بالفوتر */
+        .footer {
+            margin-top: 3rem;
+            color: #e0f7fa;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(224, 247, 250, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer .heart-icon-footer {
+            color: #f8bbd0;
+            font-size: 1.5rem;
+            animation: beat 1s infinite alternate;
+        }
+
+
         /* تعديلات التصميم المتجاوب للشاشات الأصغر (الموبايل والتابلت) */
         @media (max-width: 768px) {
             .text-jojo {
@@ -381,23 +914,123 @@
             .heart-shape:nth-child(8) { width: 65px; height: 65px; }
             .heart-shape:nth-child(9) { width: 45px; height: 45px; }
 
-            .story-generator-section {
+            .gemini-feature-section {
                 padding: 1rem;
                 margin-top: 2rem;
             }
-            .story-generator-section textarea {
+            .gemini-feature-section textarea,
+            .gemini-feature-section input[type="text"] {
                 font-size: 0.9rem;
             }
-            .story-generator-section button {
+            .gemini-feature-section button {
                 font-size: 1rem;
                 padding: 0.6rem 1.2rem;
             }
-            .story-output {
+            .gemini-output {
                 font-size: 0.9rem;
             }
             .listen-button {
                 font-size: 1rem;
                 padding: 0.6rem 1.2rem;
+            }
+
+            /* تعديلات الألعاب على الشاشات الصغيرة */
+            .games-section {
+                padding: 1rem;
+                margin-top: 2rem;
+            }
+            .games-section h2 {
+                font-size: 1.5rem;
+            }
+            .tic-tac-toe-board {
+                grid-template-columns: repeat(3, 60px);
+                grid-template-rows: repeat(3, 60px);
+            }
+            .tic-tac-toe-cell {
+                width: 60px;
+                height: 60px;
+                font-size: 2.2rem;
+            }
+            .rps-choice-button {
+                padding: 0.8rem 1.2rem;
+                font-size: 1.5rem;
+            }
+            .rps-result {
+                font-size: 1rem;
+            }
+            .guess-number-game input[type="number"] {
+                width: 80px;
+                font-size: 1rem;
+            }
+            .guess-number-game button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            .guess-number-game .message {
+                font-size: 0.9rem;
+            }
+            /* Memory Game adjustments */
+            .memory-grid {
+                grid-template-columns: repeat(4, 55px);
+                grid-template-rows: repeat(4, 55px);
+                gap: 8px;
+                max-width: 260px; /* (55*4) + (8*3) + (8*2) = 220 + 24 + 16 = 260px */
+            }
+            .memory-card {
+                width: 55px;
+                height: 55px;
+                font-size: 2rem;
+            }
+            /* Whack-a-Mole adjustments */
+            .whack-a-mole-grid {
+                grid-template-columns: repeat(3, 80px);
+                grid-template-rows: repeat(3, 80px);
+                gap: 10px;
+                max-width: 270px; /* (80*3) + (10*2) + (10*2) = 240 + 20 + 20 = 280px */
+            }
+            .mole-hole {
+                width: 80px;
+                height: 80px;
+            }
+            .mole-emoji {
+                font-size: 2.8rem;
+            }
+            .whack-a-mole-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            .whack-a-mole-score, .whack-a-mole-time {
+                font-size: 1rem;
+            }
+            /* Bubble Pop adjustments */
+            .bubble-area {
+                height: 250px;
+            }
+            .bubble {
+                font-size: 1.2rem;
+            }
+            .bubble-pop-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            /* Color Match adjustments */
+            .target-color-display {
+                width: 100px;
+                height: 100px;
+            }
+            .color-choices-grid {
+                grid-template-columns: repeat(2, 80px);
+                gap: 10px;
+            }
+            .color-choice-button {
+                width: 80px;
+                height: 80px;
+            }
+            .footer {
+                font-size: 1rem;
+            }
+            .footer .heart-icon-footer {
+                font-size: 1.2rem;
             }
         }
         /* تعديلات التصميم المتجاوب للشاشات الأصغر جداً (الهواتف) */
@@ -419,9 +1052,75 @@
             .heart-shape {
                 display: none;
             }
-            .story-generator-section {
+            .gemini-feature-section {
                 padding: 0.8rem;
                 margin-top: 1.5rem;
+            }
+            /* تقليل حجم خلايا X-O أكثر */
+            .tic-tac-toe-board {
+                grid-template-columns: repeat(3, 50px);
+                grid-template-rows: repeat(3, 50px);
+            }
+            .tic-tac-toe-cell {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+            }
+            .rps-choices {
+                flex-direction: column; /* جعل الأزرار عمودية على الشاشات الصغيرة جداً */
+                gap: 0.8rem;
+            }
+            /* Memory Game adjustments for very small screens */
+            .memory-grid {
+                grid-template-columns: repeat(4, 45px);
+                grid-template-rows: repeat(4, 45px);
+                gap: 5px;
+                max-width: 200px; /* (45*4) + (5*3) + (5*2) = 180 + 15 + 10 = 205px */
+            }
+            .memory-card {
+                width: 45px;
+                height: 45px;
+                font-size: 1.8rem;
+            }
+            /* Whack-a-Mole adjustments for very small screens */
+            .whack-a-mole-grid {
+                grid-template-columns: repeat(3, 60px);
+                grid-template-rows: repeat(3, 60px);
+                gap: 8px;
+                max-width: 200px; /* (60*3) + (8*2) + (8*2) = 180 + 16 + 16 = 212px */
+            }
+            .mole-hole {
+                width: 60px;
+                height: 60px;
+            }
+            .mole-emoji {
+                font-size: 2.2rem;
+            }
+            /* Bubble Pop adjustments */
+            .bubble-area {
+                height: 200px;
+            }
+            .bubble {
+                font-size: 1rem;
+            }
+            /* Color Match adjustments */
+            .target-color-display {
+                width: 80px;
+                height: 80px;
+            }
+            .color-choices-grid {
+                grid-template-columns: repeat(2, 60px);
+                gap: 8px;
+            }
+            .color-choice-button {
+                width: 60px;
+                height: 60px;
+            }
+            .footer {
+                font-size: 0.9rem;
+            }
+            .footer .heart-icon-footer {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -439,14 +1138,14 @@
 
     <div class="container">
         <h1 class="text-jojo">
-            تم تصميمه بالكامل من أجل جوجو <span class="heart-icon">❤️</span>
+            هذا الموقع صُمّم خصيصًا لجوجو <span class="heart-icon">❤️</span>
         </h1>
         <p class="text-jojo-sub">
-            نوم الهنا والعافية <span class="zzz-icon">Zzz</span>
+            نوم العوافي <span class="zzz-icon">Zzz</span>
         </p>
 
         <div id="audioPrompt" class="flex flex-col items-center justify-center">
-            <p class="text-gray-300 text-lg mb-4">الرجاء النقر لتشغيل أغنية براعم!</p>
+            <p class="text-gray-300 text-lg mb-4">اضغط هنا لتشغيل أغنية براعم!</p>
             <button id="playButton" class="play-button">
                 تشغيل الأغنية
                 <svg class="play-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -463,17 +1162,17 @@
             متصفحك لا يدعم تشغيل الصوت.
         </audio>
 
-        <div class="story-generator-section">
-            <h2 class="text-lg font-bold text-f8bbd0 mb-4">✨ قصة نوم لجوجو ✨</h2>
-            <textarea id="storyPromptInput" placeholder="اكتب فكرة للقصة هنا (مثال: عن أرنب صغير، عن نجمة لامعة)"></textarea>
+        <div class="gemini-feature-section">
+            <h2 class="text-pink-200 mb-4">✨ تأليف القصص لجوجو ✨</h2>
+            <textarea id="storyPromptInput" placeholder="اكتب فكرة القصة هنا (مثلاً: عن أرنب صغير، نجمة تلمع)"></textarea>
             <button id="generateStoryButton">
                 تأليف القصة ✨
             </button>
-            <div id="loadingIndicator" class="loading-indicator hidden">
+            <div id="storyLoadingIndicator" class="loading-indicator hidden">
                 <div class="spinner"></div>
-                <span class="mr-2">جاري توليد القصة...</span>
+                <span class="mr-2">جاري تأليف القصة...</span>
             </div>
-            <div id="storyOutput" class="story-output hidden"></div>
+            <div id="storyOutput" class="gemini-output hidden"></div>
             <button id="listenStoryButton" class="listen-button hidden">
                 استمع للقصة
                 <svg class="listen-icon w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -482,55 +1181,244 @@
             </button>
         </div>
 
+        <div class="gemini-feature-section">
+            <h2 class="text-purple-200 mb-4">✨ اسأل الذكاء الاصطناعي ✨</h2>
+            <textarea id="aiQuestionInput" placeholder="اكتب سؤالك هنا (مثلاً: ليش السما زرقا؟، كيف تنام القطط؟)"></textarea>
+            <button id="askAiButton">
+                اسأل ✨
+            </button>
+            <div id="aiLoadingIndicator" class="loading-indicator hidden">
+                <div class="spinner"></div>
+                <span class="mr-2">جاري الإجابة...</span>
+            </div>
+            <div id="aiAnswerOutput" class="gemini-output hidden"></div>
+        </div>
+
+        <div class="games-section">
+            <h2 class="text-blue-200 mb-4">🎮 ألعاب جوجو 🎮</h2>
+
+            <div class="tic-tac-toe-game">
+                <h3>لعبة إكس أو</h3>
+                <div id="ticTacToeBoard" class="tic-tac-toe-board">
+                    <div class="tic-tac-toe-cell" data-cell-index="0"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="1"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="2"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="3"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="4"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="5"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="6"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="7"></div>
+                    <div class="tic-tac-toe-cell" data-cell-index="8"></div>
+                </div>
+                <p id="ticTacToeStatus" class="text-e0f7fa mt-4 text-lg font-semibold">دور اللاعب X</p>
+                <button id="ticTacToeResetButton" class="tic-tac-toe-reset-button">إعادة اللعبة</button>
+            </div>
+
+            <div class="rps-game">
+                <h3>لعبة حجر ورقة مقص</h3>
+                <div class="rps-choices">
+                    <button class="rps-choice-button" data-choice="rock">✊</button>
+                    <button class="rps-choice-button" data-choice="paper">✋</button>
+                    <button class="rps-choice-button" data-choice="scissors">✌️</button>
+                </div>
+                <p id="rpsResult" class="rps-result"></p>
+            </div>
+
+            <div class="guess-number-game">
+                <h3>لعبة تخمين الرقم 🔢</h3>
+                <p class="text-e0f7fa mb-2">خمن رقم بين 1 و 100.</p>
+                <input type="number" id="guessInput" min="1" max="100" placeholder="أدخل تخمينك">
+                <button id="guessButton">خمن</button>
+                <p id="guessMessage" class="message"></p>
+                <p id="guessCount" class="text-e0f7fa text-sm mt-1">المحاولات: 0</p>
+                <button id="guessResetButton" class="reset-button">إعادة اللعبة</button>
+            </div>
+
+            <div class="memory-game">
+                <h3>لعبة الذاكرة 🧠</h3>
+                <p class="memory-status">محاولات: 0 | أزواج صحيحة: 0</p>
+                <div id="memoryGrid" class="memory-grid">
+                    </div>
+                <button id="memoryResetButton" class="memory-reset-button">إعادة اللعبة</button>
+            </div>
+
+            <div class="whack-a-mole-game">
+                <h3>لعبة اضرب الرموز 💥</h3>
+                <p class="whack-a-mole-score">النقاط: 0</p>
+                <p class="whack-a-mole-time">الوقت: 30 ثانية</p>
+                <div id="whackAMoleGrid" class="whack-a-mole-grid">
+                    </div>
+                <div class="whack-a-mole-controls">
+                    <button id="whackAMoleStartButton" class="whack-a-mole-button">ابدا اللعبة</button>
+                    <button id="whackAMoleResetButton" class="whack-a-mole-button hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
+            <div class="bubble-pop-game">
+                <h3>لعبة فرقعة الفقاعات 🫧</h3>
+                <p class="bubble-pop-score">النقاط: 0</p>
+                <p class="bubble-pop-time">الوقت: 20 ثانية</p>
+                <div id="bubbleArea" class="bubble-area">
+                    </div>
+                <div class="bubble-pop-controls">
+                    <button id="bubblePopStartButton" class="bubble-pop-button">ابدا اللعبة</button>
+                    <button id="bubblePopResetButton" class="bubble-pop-button hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
+            <div class="color-match-game">
+                <h3>لعبة مطابقة الألوان 🎨</h3>
+                <p class="color-match-score">النقاط: 0</p>
+                <div class="target-color-display" id="targetColorDisplay"></div>
+                <div class="color-choices-grid" id="colorChoicesGrid">
+                    </div>
+                <p class="color-match-message" id="colorMatchMessage"></p>
+                <button id="colorMatchResetButton" class="color-match-reset-button">إعادة اللعبة</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        صنع بحب من أجلك <span class="heart-icon-footer">❤️</span>
     </div>
 
     <script>
+        // Get references to audio elements and buttons
         const audio = document.getElementById('baraemAudio');
         const playButton = document.getElementById('playButton');
         const audioPrompt = document.getElementById('audioPrompt');
         const errorMessage = document.getElementById('errorMessage');
 
+        // Get references to story generator elements
         const storyPromptInput = document.getElementById('storyPromptInput');
         const generateStoryButton = document.getElementById('generateStoryButton');
-        const loadingIndicator = document.getElementById('loadingIndicator');
+        const storyLoadingIndicator = document.getElementById('storyLoadingIndicator');
         const storyOutput = document.getElementById('storyOutput');
-        const listenStoryButton = document.getElementById('listenStoryButton'); // الحصول على زر الاستماع
+        const listenStoryButton = document.getElementById('listenStoryButton');
 
+        // Get references to AI Q&A elements
+        const aiQuestionInput = document.getElementById('aiQuestionInput');
+        const askAiButton = document.getElementById('askAiButton');
+        const aiLoadingIndicator = document.getElementById('aiLoadingIndicator');
+        const aiAnswerOutput = document.getElementById('aiAnswerOutput');
+
+
+        // Event listener for playing the audio
         playButton.addEventListener('click', () => {
             audio.play()
                 .then(() => {
-                    audioPrompt.style.display = 'none';
-                    errorMessage.classList.add('hidden');
-                    console.log('تم تشغيل الصوت بنجاح.');
+                    audioPrompt.style.display = 'none'; // Hide the audio prompt on successful play
+                    errorMessage.classList.add('hidden'); // Hide any error message
+                    console.log('تم تشغيل الصوت بنجاح.'); // Log success
                 })
                 .catch(error => {
-                    console.error('فشل تشغيل الصوت:', error);
-                    errorMessage.classList.remove('hidden');
+                    console.error('فشل تشغيل الصوت:', error); // Log error if audio fails to play
+                    errorMessage.classList.remove('hidden'); // Show error message to the user
                 });
         });
 
-        // وظيفة لتوليد القصة باستخدام Gemini API
+        // Function to generate the story using Gemini API
         generateStoryButton.addEventListener('click', async () => {
             const promptText = storyPromptInput.value.trim();
             if (!promptText) {
-                storyOutput.textContent = 'الرجاء إدخال فكرة للقصة أولاً.';
+                storyOutput.textContent = 'اكتب فكرة القصة أول شيء.'; // Prompt user for input
                 storyOutput.classList.remove('hidden');
-                listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع إذا لم تكن هناك قصة
+                listenStoryButton.classList.add('hidden'); // Hide listen button if no story
                 return;
             }
 
-            loadingIndicator.classList.remove('hidden');
-            storyOutput.classList.add('hidden');
-            listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع أثناء التوليد
-            storyOutput.textContent = ''; // مسح أي قصة سابقة
+            storyLoadingIndicator.classList.remove('hidden'); // Show loading indicator
+            storyOutput.classList.add('hidden'); // Hide previous story output
+            listenStoryButton.classList.add('hidden'); // Hide listen button during generation
+            storyOutput.textContent = ''; // Clear any previous story
 
             try {
                 let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: `اكتب قصة نوم قصيرة وهادئة ولطيفة للأطفال عن: ${promptText}. يجب أن تكون القصة مناسبة للأطفال الصغار وتساعدهم على الاسترخاء والنوم. اجعلها حوالي 100-150 كلمة. لا تستخدم أي مقدمات أو خاتمات للقصة، فقط نص القصة.` }] });
+                // Construct the prompt for the Gemini API
+                chatHistory.push({ role: "user", parts: [{ text: `اكتب قصة نوم قصيرة وهادئة ولطيفة للأطفال عن: ${promptText}. القصة يجب أن تكون مناسبة للأطفال الصغار وتساعدهم على الاسترخاء والنوم. اجعلها حوالي 100-150 كلمة. لا تستخدم أي مقدمات أو خاتمات للقصة، فقط نص القصة.` }] });
                 const payload = { contents: chatHistory };
-                // IMPORTANT: Replace "YOUR_GEMINI_API_KEY_HERE" with your actual Gemini API Key.
-                // You can get one from Google AI Studio: https://aistudio.google.com/app/apikey
-                const apiKey = "AIzaSyDjr_8VTvu1rbfvyH6WtzOm7776aJ0kBBo"; 
+                // API key is left empty as it will be provided by the Canvas environment
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                // Check if the response contains valid content
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const story = result.candidates[0].content.parts[0].text;
+                    storyOutput.textContent = story; // Display the generated story
+                    storyOutput.classList.remove('hidden'); // Show the story output
+                    listenStoryButton.classList.remove('hidden'); // Show listen button after successful generation
+                } else {
+                    storyOutput.textContent = 'عذراً، لم أتمكن من كتابة القصة. حاول مرة ثانية.'; // Error message for user
+                    storyOutput.classList.remove('hidden');
+                    listenStoryButton.classList.add('hidden'); // Hide listen button on failure
+                    console.error('استجابة غير متوقعة من Gemini API:', result); // Log unexpected API response
+                }
+            } catch (error) {
+                console.error('خطأ في استدعاء Gemini API:', error); // Log API call error
+                storyOutput.textContent = 'حدث خطأ أثناء كتابة القصة. يرجى التأكد من اتصالك بالإنترنت أو المحاولة لاحقاً.'; // Generic error message
+                storyOutput.classList.remove('hidden');
+                listenStoryButton.classList.add('hidden'); // Hide listen button on error
+            } finally {
+                storyLoadingIndicator.classList.add('hidden'); // Hide loading indicator
+            }
+        });
+
+        // Function to convert text to speech
+        listenStoryButton.addEventListener('click', () => {
+            const storyText = storyOutput.textContent;
+            if (storyText && 'speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(storyText);
+                // Attempt to set the language to Saudi Arabic.
+                // Note: Regional dialect support (like ar-SA) varies significantly across browsers and OS.
+                // 'ar-SA' might not be specifically recognized, and a standard Arabic or general Arabic voice might be used instead.
+                utterance.lang = 'ar-SA'; 
+
+                // Find an Arabic voice if available
+                const voices = window.speechSynthesis.getVoices();
+                const arabicVoice = voices.find(voice => voice.lang === 'ar-SA' || voice.lang.startsWith('ar-') && voice.name.includes('Arabic'));
+                if (arabicVoice) {
+                    utterance.voice = arabicVoice;
+                } else {
+                    console.warn('لم يتم العثور على صوت عربي سعودي محدد. سيتم استخدام الصوت الافتراضي أو أفضل صوت عربي متاح.');
+                }
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.error('متصفحك لا يدعم قراءة القصة بصوت عالٍ، أو لا توجد قصة لتشغيلها.');
+                // You can display a message to the user here
+            }
+        });
+
+        // AI Q&A Logic (Gemini API)
+        askAiButton.addEventListener('click', async () => {
+            const questionText = aiQuestionInput.value.trim();
+            if (!questionText) {
+                aiAnswerOutput.textContent = 'اكتب سؤالك أول شيء.';
+                aiAnswerOutput.classList.remove('hidden');
+                return;
+            }
+
+            aiLoadingIndicator.classList.remove('hidden');
+            aiAnswerOutput.classList.add('hidden');
+            aiAnswerOutput.textContent = '';
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: `أجب على هذا السؤال بطريقة بسيطة ولطيفة ومناسبة للأطفال، وباللهجة السعودية العامة: ${questionText}.` }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -544,54 +1432,846 @@
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
-                    const story = result.candidates[0].content.parts[0].text;
-                    storyOutput.textContent = story;
-                    storyOutput.classList.remove('hidden');
-                    listenStoryButton.classList.remove('hidden'); // إظهار زر الاستماع بعد توليد القصة بنجاح
+                    const answer = result.candidates[0].content.parts[0].text;
+                    aiAnswerOutput.textContent = answer;
+                    aiAnswerOutput.classList.remove('hidden');
                 } else {
-                    storyOutput.textContent = 'عذراً، لم أتمكن من توليد القصة. الرجاء المحاولة مرة أخرى.';
-                    storyOutput.classList.remove('hidden');
-                    listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع في حالة الفشل
+                    aiAnswerOutput.textContent = 'عذراً، لم يتمكن الذكاء الاصطناعي من الإجابة على سؤالك. حاول مرة ثانية.';
+                    aiAnswerOutput.classList.remove('hidden');
                     console.error('استجابة غير متوقعة من Gemini API:', result);
                 }
             } catch (error) {
-                console.error('خطأ في استدعاء Gemini API:', error);
-                storyOutput.textContent = 'حدث خطأ أثناء توليد القصة. الرجاء التحقق من اتصالك بالإنترنت أو المحاولة لاحقاً.';
-                storyOutput.classList.remove('hidden');
-                listenStoryButton.classList.add('hidden'); // إخفاء زر الاستماع في حالة الخطأ
+                console.error('خطأ في استدعاء Gemini API للإجابة على الأسئلة:', error);
+                aiAnswerOutput.textContent = 'حدث خطأ أثناء الإجابة على سؤالك. يرجى التأكد من اتصالك بالإنترنت أو المحاولة لاحقاً.';
+                aiAnswerOutput.classList.remove('hidden');
             } finally {
-                loadingIndicator.classList.add('hidden');
+                aiLoadingIndicator.classList.add('hidden');
             }
         });
 
-        // وظيفة تحويل النص إلى كلام
-        listenStoryButton.addEventListener('click', () => {
-            const storyText = storyOutput.textContent;
-            if (storyText && 'speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(storyText);
-                // محاولة تعيين اللغة إلى العربية السعودية.
-                // ملاحظة: دعم اللهجات الإقليمية (مثل السعودية) يختلف بشكل كبير بين المتصفحات وأنظمة التشغيل.
-                // قد لا يتم العرف على 'ar-SA' بشكل محدد، وقد يتم استخدام صوت عربي فصحى أو صوت عربي عام بدلاً من ذلك.
-                utterance.lang = 'ar-SA'; 
 
-                // البحث عن صوت عربي إذا كان متوفراً
-                const voices = window.speechSynthesis.getVoices();
-                const arabicVoice = voices.find(voice => voice.lang === 'ar-SA' || voice.lang.startsWith('ar-') && voice.name.includes('Arabic'));
-                if (arabicVoice) {
-                    utterance.voice = arabicVoice;
-                } else {
-                    console.warn('لم يتم العثور على صوت عربي سعودي محدد. سيتم استخدام الصوت الافتراضي أو أفضل صوت عربي متاح.');
+        // Tic-Tac-Toe Game Logic
+        const ticTacToeBoard = document.getElementById('ticTacToeBoard');
+        const ticTacToeCells = document.querySelectorAll('.tic-tac-toe-cell');
+        const ticTacToeStatus = document.getElementById('ticTacToeStatus');
+        const ticTacToeResetButton = document.getElementById('ticTacToeResetButton');
+
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X'; // Human player is 'X'
+        const computerPlayer = 'O'; // AI player is 'O'
+        let gameActive = true;
+        let ticTacToeWinMessageIndex = 0;
+        const ticTacToeWinMessages = [
+            'أحسنت! فزت بجدارة! 🎉',
+            'فوز رائع! 🌟',
+            'ما شاء الله! إكس أو حركات! فزت! 🏆',
+            'مبدع! فوز ولا أروع! 💖',
+            'لعبك ممتاز! فزت! ✨'
+        ];
+
+        // Winning conditions for Tic-Tac-Toe
+        const winningConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        // Function to handle cell clicks (human player)
+        function handleCellClick(clickedCellEvent) {
+            const clickedCell = clickedCellEvent.target;
+            const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
+
+            // If the cell is already filled, game is inactive, or it's not human's turn, do nothing
+            if (board[clickedCellIndex] !== '' || !gameActive || currentPlayer !== 'X') {
+                return;
+            }
+
+            // Human player makes a move
+            board[clickedCellIndex] = currentPlayer;
+            clickedCell.textContent = currentPlayer;
+            clickedCell.classList.add(currentPlayer.toLowerCase()); // Add class for styling X or O
+
+            // Check game status after human's move
+            if (handleResultValidation()) {
+                return; // If game ends, stop
+            }
+
+            // Switch to computer's turn and make AI move after a short delay
+            currentPlayer = computerPlayer;
+            ticTacToeStatus.textContent = `دور الكمبيوتر (O)`;
+            setTimeout(makeAIMove, 700); // Add a small delay for AI move
+        }
+
+        // Function to make AI move
+        function makeAIMove() {
+            if (!gameActive) return;
+
+            let bestMove = -1;
+            let availableMoves = [];
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] === '') {
+                    availableMoves.push(i);
+                }
+            }
+
+            // 1. Check if AI can win
+            for (let i = 0; i < availableMoves.length; i++) {
+                const move = availableMoves[i];
+                board[move] = computerPlayer;
+                if (checkWin(board, computerPlayer)) {
+                    bestMove = move;
+                    board[move] = ''; // Undo for checking other moves
+                    break;
+                }
+                board[move] = ''; // Undo
+            }
+
+            // 2. Check if human can win and block them
+            if (bestMove === -1) {
+                for (let i = 0; i < availableMoves.length; i++) {
+                    const move = availableMoves[i];
+                    board[move] = 'X'; // Simulate opponent's move
+                    if (checkWin(board, 'X')) {
+                        bestMove = move;
+                        board[move] = ''; // Undo
+                        break;
+                    }
+                    board[move] = ''; // Undo
+                }
+            }
+
+            // 3. Take center if available
+            if (bestMove === -1 && board[4] === '') {
+                bestMove = 4;
+            }
+
+            // 4. Take a corner if available
+            if (bestMove === -1) {
+                const corners = [0, 2, 6, 8];
+                for (let i = 0; i < corners.length; i++) {
+                    const corner = corners[i];
+                    if (board[corner] === '') {
+                        bestMove = corner;
+                        break;
+                    }
+                }
+            }
+
+            // 5. Take any available side
+            if (bestMove === -1) {
+                const sides = [1, 3, 5, 7];
+                for (let i = 0; i < sides.length; i++) {
+                    const side = sides[i];
+                    if (board[side] === '') {
+                        bestMove = side;
+                        break;
+                    }
+                }
+            }
+
+            // If no strategic move, pick a random available spot
+            if (bestMove === -1 && availableMoves.length > 0) {
+                bestMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            }
+            
+            // Apply the AI's chosen move
+            if (bestMove !== -1) {
+                board[bestMove] = computerPlayer;
+                ticTacToeCells[bestMove].textContent = computerPlayer;
+                ticTacToeCells[bestMove].classList.add(computerPlayer.toLowerCase());
+
+                // Check game status after AI's move
+                if (handleResultValidation()) {
+                    return; // If game ends, stop
                 }
 
-                window.speechSynthesis.speak(utterance);
+                // Switch back to human player's turn
+                currentPlayer = 'X';
+                ticTacToeStatus.textContent = `دور اللاعب X`;
             } else {
-                console.error('متصفحك لا يدعم تحويل النص إلى كلام أو لا توجد قصة لتشغيلها.');
-                // يمكنك عرض رسالة للمستخدم هنا
+                // This case should ideally not be reached if gameActive is true and board is not full
+                console.error("AI couldn't find a move!");
             }
+        }
+
+        // Helper function to check for a win for a given player
+        function checkWin(currentBoard, player) {
+            for (let i = 0; i < winningConditions.length; i++) {
+                const winCondition = winningConditions[i];
+                let a = currentBoard[winCondition[0]];
+                let b = currentBoard[winCondition[1]];
+                let c = currentBoard[winCondition[2]];
+
+                if (a === player && b === player && c === player) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Function to validate game result
+        function handleResultValidation() {
+            // Check for a win for the current player
+            if (checkWin(board, currentPlayer)) {
+                if (currentPlayer === 'X') { // Human won
+                    ticTacToeStatus.textContent = ticTacToeWinMessages[ticTacToeWinMessageIndex];
+                    ticTacToeWinMessageIndex = (ticTacToeWinMessageIndex + 1) % ticTacToeWinMessages.length; // Cycle message
+                } else { // Computer won
+                    ticTacToeStatus.textContent = `الكمبيوتر فاز هذه المرة! 🤖`;
+                }
+                gameActive = false;
+                return true;
+            }
+
+            // Check for a draw
+            let roundDraw = !board.includes('');
+            if (roundDraw) {
+                ticTacToeStatus.textContent = 'تعادل! 🤝';
+                gameActive = false;
+                return true;
+            }
+            return false; // Game is still active
+        }
+
+        // Function to reset the game
+        function handleRestartGame() {
+            gameActive = true;
+            currentPlayer = 'X'; // Human player starts
+            board = ['', '', '', '', '', '', '', '', ''];
+            ticTacToeStatus.textContent = `دور اللاعب X`;
+            ticTacToeCells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('x', 'o'); // Remove X/O styling classes
+            });
+        }
+
+        // Add event listeners for Tic-Tac-Toe
+        ticTacToeCells.forEach(cell => cell.addEventListener('click', handleCellClick));
+        ticTacToeResetButton.addEventListener('click', handleRestartGame);
+
+        // Rock-Paper-Scissors Game Logic
+        const rpsChoices = document.querySelectorAll('.rps-choice-button');
+        const rpsResult = document.getElementById('rpsResult');
+        const rpsWinMessages = [
+            'فزت! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'أحسنت! فزت هذه المرة! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'فوز رائع! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.'
+        ];
+        const rpsLoseMessages = [
+            'خسرت هذه المرة! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'حظ أوفر المرة القادمة! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'الكمبيوتر فاز هذه المرة. أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.'
+        ];
+        let rpsWinMessageIndex = 0;
+        let rpsLoseMessageIndex = 0;
+
+        // Function to play Rock-Paper-Scissors
+        function playRPS(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+            let result = '';
+            const playerChoiceArabic = getArabicChoice(playerChoice);
+            const computerChoiceArabic = getArabicChoice(computerChoice);
+
+            // Determine the winner
+            if (playerChoice === computerChoice) {
+                result = `تعادل! كلاكما اختار ${playerChoiceArabic}.`;
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = rpsWinMessages[rpsWinMessageIndex]
+                    .replace('${playerChoiceArabic}', playerChoiceArabic)
+                    .replace('${computerChoiceArabic}', computerChoiceArabic);
+                rpsWinMessageIndex = (rpsWinMessageIndex + 1) % rpsWinMessages.length;
+            } else {
+                result = rpsLoseMessages[rpsLoseMessageIndex]
+                    .replace('${playerChoiceArabic}', playerChoiceArabic)
+                    .replace('${computerChoiceArabic}', computerChoiceArabic);
+                rpsLoseMessageIndex = (rpsLoseMessageIndex + 1) % rpsLoseMessages.length;
+            }
+            rpsResult.textContent = result; // Display the result
+        }
+
+        // Helper function to get Arabic choice name
+        function getArabicChoice(choice) {
+            switch (choice) {
+                case 'rock': return 'حجر ✊';
+                case 'paper': return 'ورقة ✋';
+                case 'scissors': return 'مقص ✌️';
+                default: return '';
+            }
+        }
+
+        // Add event listeners for Rock-Paper-Scissors buttons
+        rpsChoices.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const playerChoice = e.target.dataset.choice;
+                playRPS(playerChoice);
+            });
         });
 
+        // Guess the Number Game Logic
+        const guessInput = document.getElementById('guessInput');
+        const guessButton = document.getElementById('guessButton');
+        const guessMessage = document.getElementById('guessMessage');
+        const guessCountDisplay = document.getElementById('guessCount');
+        const guessResetButton = document.getElementById('guessResetButton');
+
+        let secretNumber;
+        let attempts;
+        let gameEnded;
+        let guessWinMessageIndex = 0;
+        const guessWinMessages = [
+            'أحسنت! خمنت الرقم الصحيح في ${attempts} محاولات! 🎉',
+            'ممتاز! جبت الرقم صح في ${attempts} محاولات! 🌟',
+            'رائع! الرقم السري لم يخف عليك! فوز رائع في ${attempts} محاولات! 🏆'
+        ];
+
+        // Function to initialize the Guess the Number game
+        function initializeGuessNumberGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1; // Random number between 1 and 100
+            attempts = 0;
+            gameEnded = false;
+            guessMessage.textContent = '';
+            guessCountDisplay.textContent = 'المحاولات: 0';
+            guessInput.value = '';
+            guessInput.disabled = false;
+            guessButton.disabled = false;
+            console.log('Secret Number (for debugging):', secretNumber); // For debugging
+        }
+
+        // Function to handle a guess
+        function handleGuess() {
+            if (gameEnded) return;
+
+            const userGuess = parseInt(guessInput.value);
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                guessMessage.textContent = 'أدخل رقم صحيح بين 1 و 100.';
+                return;
+            }
+
+            attempts++;
+            guessCountDisplay.textContent = `المحاولات: ${attempts}`;
+
+            if (userGuess === secretNumber) {
+                guessMessage.textContent = guessWinMessages[guessWinMessageIndex].replace('${attempts}', attempts).replace('${secretNumber}', secretNumber);
+                guessWinMessageIndex = (guessWinMessageIndex + 1) % guessWinMessages.length;
+                gameEnded = true;
+                guessInput.disabled = true;
+                guessButton.disabled = true;
+            } else if (userGuess < secretNumber) {
+                guessMessage.textContent = 'الرقم السري أكبر. حاول مرة أخرى.';
+            } else {
+                guessMessage.textContent = 'الرقم السري أصغر. حاول مرة أخرى.';
+            }
+            guessInput.value = ''; // Clear input after guess
+        }
+
+        // Event listeners for Guess the Number game
+        guessButton.addEventListener('click', handleGuess);
+        guessInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleGuess();
+            }
+        });
+        guessResetButton.addEventListener('click', initializeGuessNumberGame);
+
+        // Memory Match Game Logic
+        const memoryGrid = document.getElementById('memoryGrid');
+        const memoryStatus = document.querySelector('.memory-status');
+        const memoryResetButton = document.getElementById('memoryResetButton');
+
+        const emojis = ['🌟', '🌙', '🧸', '💖', '🌈', '✨', '🌸', '🦋']; // 8 unique emojis
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let attemptsMade = 0;
+        let lockBoard = false; // To prevent flipping more than two cards at once
+        let memoryWinMessageIndex = 0;
+        const memoryWinMessages = [
+            'أحسنت! أكملت اللعبة في ${attemptsMade} محاولات! 🎉',
+            'ذاكرتك قوية! أبدعت في ${attemptsMade} محاولات! 🧠',
+            'ممتاز! كل الأزواج صحيحة في ${attemptsMade} محاولات! 💖'
+        ];
+
+
+        // Function to shuffle an array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to initialize the Memory Match game
+        function initializeMemoryGame() {
+            memoryGrid.innerHTML = ''; // Clear previous cards
+            flippedCards = [];
+            matchedPairs = 0;
+            attemptsMade = 0;
+            lockBoard = false;
+            memoryStatus.textContent = 'المحاولات: 0 | الأزواج الصحيحة: 0';
+
+            // Duplicate emojis to create pairs
+            cards = [...emojis, ...emojis];
+            shuffleArray(cards); // Shuffle the cards
+
+            // Create card elements
+            cards.forEach((emoji, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('memory-card');
+                cardElement.dataset.emoji = emoji;
+                cardElement.dataset.index = index;
+
+                cardElement.innerHTML = `
+                    <div class="card-face card-front">${emoji}</div>
+                    <div class="card-face card-back"></div>
+                `;
+                cardElement.addEventListener('click', flipCard);
+                memoryGrid.appendChild(cardElement);
+            });
+        }
+
+        // Function to flip a card
+        function flipCard() {
+            if (lockBoard) return; // Prevent flipping if board is locked
+            if (this === flippedCards[0]) return; // Prevent clicking the same card twice
+
+            this.classList.add('flipped');
+            flippedCards.push(this);
+
+            if (flippedCards.length === 2) {
+                attemptsMade++;
+                memoryStatus.textContent = `المحاولات: ${attemptsMade} | الأزواج الصحيحة: ${matchedPairs}`;
+                lockBoard = true; // Lock the board
+                checkForMatch();
+            }
+        }
+
+        // Function to check if two flipped cards match
+        function checkForMatch() {
+            const [card1, card2] = flippedCards;
+            const isMatch = card1.dataset.emoji === card2.dataset.emoji;
+
+            if (isMatch) {
+                disableCards();
+            } else {
+                unflipCards();
+            }
+        }
+
+        // Function to disable matched cards
+        function disableCards() {
+            flippedCards[0].classList.add('matched');
+            flippedCards[1].classList.add('matched');
+            matchedPairs++;
+            memoryStatus.textContent = `المحاولات: ${attemptsMade} | الأزواج الصحيحة: ${matchedPairs}`;
+
+            resetFlippedCards();
+            checkWinMemoryGame();
+        }
+
+        // Function to unflip non-matching cards
+        function unflipCards() {
+            setTimeout(() => {
+                flippedCards[0].classList.remove('flipped');
+                flippedCards[1].classList.remove('flipped');
+                resetFlippedCards();
+            }, 1000); // Wait 1 second before unflipping
+        }
+
+        // Function to reset flipped cards array and unlock board
+        function resetFlippedCards() {
+            [flippedCards[0], flippedCards[1]] = [null, null];
+            flippedCards = [];
+            lockBoard = false;
+        }
+
+        // Function to check if all pairs are matched
+        function checkWinMemoryGame() {
+            if (matchedPairs === emojis.length) {
+                memoryStatus.textContent = memoryWinMessages[memoryWinMessageIndex].replace('${attemptsMade}', attemptsMade);
+                memoryWinMessageIndex = (memoryWinMessageIndex + 1) % memoryWinMessages.length;
+                gameActive = false; // Consider the game ended
+            }
+        }
+
+        // Event listener for Memory Match reset button
+        memoryResetButton.addEventListener('click', initializeMemoryGame);
+
+
+        // Whack-a-Mole Game Logic
+        const whackAMoleGrid = document.getElementById('whackAMoleGrid');
+        const whackAMoleScoreDisplay = document.querySelector('.whack-a-mole-score');
+        const whackAMoleTimeDisplay = document.querySelector('.whack-a-mole-time');
+        const whackAMoleStartButton = document.getElementById('whackAMoleStartButton');
+        const whackAMoleResetButton = document.getElementById('whackAMoleResetButton');
+
+        const moleEmojis = ['🐭', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐸']; // Emojis for moles
+        let score = 0;
+        let timeRemaining = 30; // seconds
+        let timerId;
+        let moleInterval;
+        let lastMoleHole;
+        let gameRunning = false;
+        let whackAMoleEndMessageIndex = 0;
+        const whackAMoleEndMessages = [
+            'انتهت اللعبة! جبت ${score} نقطة! 🏆',
+            'انتهى الوقت! نقاطك: ${score}! ✨',
+            'لعبت جيداً! جبت ${score} نقطة! 🎉'
+        ];
+
+        // Create mole holes dynamically
+        function createMoleHoles() {
+            whackAMoleGrid.innerHTML = ''; // Clear existing holes
+            for (let i = 0; i < 9; i++) { // 3x3 grid
+                const hole = document.createElement('div');
+                hole.classList.add('mole-hole');
+                const mole = document.createElement('div');
+                mole.classList.add('mole-emoji');
+                mole.textContent = moleEmojis[Math.floor(Math.random() * moleEmojis.length)]; // Assign random emoji
+                mole.addEventListener('click', whackMole);
+                hole.appendChild(mole);
+                whackAMoleGrid.appendChild(hole);
+            }
+        }
+
+        // Function to get a random hole
+        function getRandomHole() {
+            const holes = document.querySelectorAll('.mole-hole');
+            const randomIndex = Math.floor(Math.random() * holes.length);
+            const selectedHole = holes[randomIndex];
+
+            if (selectedHole === lastMoleHole) {
+                return getRandomHole(); // Avoid showing mole in the same hole twice in a row
+            }
+            lastMoleHole = selectedHole;
+            return selectedHole;
+        }
+
+        // Function to show a mole
+        function showMole() {
+            const moles = document.querySelectorAll('.mole-emoji');
+            moles.forEach(mole => mole.classList.remove('up')); // Hide all moles
+
+            const randomHole = getRandomHole();
+            const moleToShow = randomHole.querySelector('.mole-emoji');
+            moleToShow.textContent = moleEmojis[Math.floor(Math.random() * moleEmojis.length)]; // Change emoji
+            moleToShow.classList.add('up'); // Show the mole
+
+            // Hide mole after a random time
+            setTimeout(() => {
+                moleToShow.classList.remove('up');
+            }, Math.random() * 800 + 400); // Mole stays up for 0.4 to 1.2 seconds
+        }
+
+        // Function to whack a mole
+        function whackMole(event) {
+            if (!gameRunning) return;
+            if (event.target.classList.contains('up')) {
+                score++;
+                whackAMoleScoreDisplay.textContent = `النقاط: ${score}`;
+                event.target.classList.remove('up'); // Hide the whacked mole immediately
+            }
+        }
+
+        // Function to start the game timer
+        function startGameTimer() {
+            timeRemaining = 30;
+            score = 0;
+            whackAMoleScoreDisplay.textContent = `النقاط: ${score}`;
+            whackAMoleTimeDisplay.textContent = `الوقت: ${timeRemaining} ثانية`;
+            gameRunning = true;
+
+            timerId = setInterval(() => {
+                timeRemaining--;
+                whackAMoleTimeDisplay.textContent = `الوقت: ${timeRemaining} ثانية`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerId);
+                    clearInterval(moleInterval);
+                    gameRunning = false;
+                    whackAMoleTimeDisplay.textContent = `انتهى الوقت!`;
+                    whackAMoleStartButton.classList.remove('hidden');
+                    whackAMoleResetButton.classList.remove('hidden'); // Show reset button
+                    alertUser(whackAMoleEndMessages[whackAMoleEndMessageIndex].replace('${score}', score));
+                    whackAMoleEndMessageIndex = (whackAMoleEndMessageIndex + 1) % whackAMoleEndMessages.length;
+                }
+            }, 1000); // Update every second
+
+            moleInterval = setInterval(showMole, 1000); // Moles appear every 1 second
+            whackAMoleStartButton.classList.add('hidden');
+            whackAMoleResetButton.classList.add('hidden'); // Hide reset button during game
+        }
+
+        // Function to reset Whack-a-Mole game
+        function resetWhackAMoleGame() {
+            clearInterval(timerId);
+            clearInterval(moleInterval);
+            gameRunning = false;
+            score = 0;
+            timeRemaining = 30;
+            whackAMoleScoreDisplay.textContent = `النقاط: 0`;
+            whackAMoleTimeDisplay.textContent = `الوقت: 30 ثانية`;
+            const moles = document.querySelectorAll('.mole-emoji');
+            moles.forEach(mole => mole.classList.remove('up'));
+            whackAMoleStartButton.classList.remove('hidden');
+            whackAMoleResetButton.classList.add('hidden');
+        }
+
+        // Custom alert function (instead of window.alert)
+        function alertUser(message) {
+            const alertBox = document.createElement('div');
+            alertBox.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                font-family: 'Cairo', sans-serif;
+                font-size: 1.2rem;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            `;
+            alertBox.innerHTML = `
+                <p>${message}</p>
+                <button style="
+                    background-color: #f8bbd0;
+                    color: #332e40;
+                    padding: 10px 20px;
+                    border-radius: 9999px;
+                    border: none;
+                    cursor: pointer;
+                    font-weight: 700;
+                    transition: background-color 0.3s ease;
+                ">موافق</button>
+            `;
+            document.body.appendChild(alertBox);
+            alertBox.querySelector('button').addEventListener('click', () => {
+                document.body.removeChild(alertBox);
+            });
+        }
+
+
+        // Event listeners for Whack-a-Mole
+        whackAMoleStartButton.addEventListener('click', startGameTimer);
+        whackAMoleResetButton.addEventListener('click', resetWhackAMoleGame);
+
+        // Bubble Pop Game Logic
+        const bubbleArea = document.getElementById('bubbleArea');
+        const bubblePopScoreDisplay = document.querySelector('.bubble-pop-score');
+        const bubblePopTimeDisplay = document.querySelector('.bubble-pop-time');
+        const bubblePopStartButton = document.getElementById('bubblePopStartButton');
+        const bubblePopResetButton = document.getElementById('bubblePopResetButton');
+
+        let bubbleScore = 0;
+        let bubbleTimeRemaining = 20; // seconds
+        let bubbleTimerId;
+        let bubbleIntervalId;
+        let bubbleGameRunning = false;
+        const bubbleEmojis = ['🎈', '🌟', '💧', '✨', '💖', '🫧']; // Emojis for bubbles
+        let bubblePopEndMessageIndex = 0;
+        const bubblePopEndMessages = [
+            'أحسنت! فرقعت ${bubbleScore} فقاعة! 🫧',
+            'انتهى الوقت! جبت ${bubbleScore} فقاعة! 🎉',
+            'ممتاز! فرقعت ${bubbleScore} فقاعة! 🌟'
+        ];
+
+        function createBubble() {
+            if (!bubbleGameRunning) return;
+
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            const size = Math.random() * 40 + 30; // Bubble size between 30px and 70px
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * (bubbleArea.offsetWidth - size)}px`; // Random horizontal position
+            bubble.style.animationDuration = `${Math.random() * 3 + 3}s`; // Animation duration 3-6 seconds
+            bubble.style.animationDelay = `${Math.random() * 0.5}s`; // Slight delay for staggered appearance
+            bubble.textContent = bubbleEmojis[Math.floor(Math.random() * bubbleEmojis.length)]; // Random emoji
+
+            bubble.addEventListener('click', () => {
+                if (bubbleGameRunning) {
+                    bubbleScore++;
+                    bubblePopScoreDisplay.textContent = `النقاط: ${bubbleScore}`;
+                    bubble.remove(); // Remove popped bubble
+                }
+            });
+
+            bubbleArea.appendChild(bubble);
+
+            // Remove bubble after animation ends to prevent accumulation
+            bubble.addEventListener('animationend', () => {
+                bubble.remove();
+            });
+        }
+
+        function startBubblePopGame() {
+            bubbleScore = 0;
+            bubbleTimeRemaining = 20;
+            bubblePopScoreDisplay.textContent = `النقاط: ${bubbleScore}`;
+            bubblePopTimeDisplay.textContent = `الوقت: ${bubbleTimeRemaining} ثانية`;
+            bubbleGameRunning = true;
+            bubblePopStartButton.classList.add('hidden');
+            bubblePopResetButton.classList.add('hidden');
+            bubbleArea.innerHTML = ''; // Clear existing bubbles
+
+            bubbleTimerId = setInterval(() => {
+                bubbleTimeRemaining--;
+                bubblePopTimeDisplay.textContent = `الوقت: ${bubbleTimeRemaining} ثانية`;
+                if (bubbleTimeRemaining <= 0) {
+                    clearInterval(bubbleTimerId);
+                    clearInterval(bubbleIntervalId);
+                    bubbleGameRunning = false;
+                    bubblePopTimeDisplay.textContent = `انتهى الوقت!`;
+                    bubblePopStartButton.classList.remove('hidden');
+                    bubblePopResetButton.classList.remove('hidden');
+                    alertUser(bubblePopEndMessages[bubblePopEndMessageIndex].replace('${bubbleScore}', bubbleScore));
+                    bubblePopEndMessageIndex = (bubblePopEndMessageIndex + 1) % bubblePopEndMessages.length;
+                    // Remove all bubbles when game ends
+                    document.querySelectorAll('.bubble').forEach(b => b.remove());
+                }
+            }, 1000);
+
+            bubbleIntervalId = setInterval(createBubble, 500); // Create a new bubble every 0.5 seconds
+        }
+
+        function resetBubblePopGame() {
+            clearInterval(bubbleTimerId);
+            clearInterval(bubbleIntervalId);
+            bubbleGameRunning = false;
+            bubbleScore = 0;
+            bubbleTimeRemaining = 20;
+            bubblePopScoreDisplay.textContent = `النقاط: 0`;
+            bubblePopTimeDisplay.textContent = `الوقت: 20 ثانية`;
+            bubbleArea.innerHTML = ''; // Clear all bubbles
+            bubblePopStartButton.classList.remove('hidden');
+            bubblePopResetButton.classList.add('hidden');
+        }
+
+        bubblePopStartButton.addEventListener('click', startBubblePopGame);
+        bubblePopResetButton.addEventListener('click', resetBubblePopGame);
+
+        // Color Match Game Logic
+        const targetColorDisplay = document.getElementById('targetColorDisplay');
+        const colorChoicesGrid = document.getElementById('colorChoicesGrid');
+        const colorMatchMessage = document.getElementById('colorMatchMessage');
+        const colorMatchScoreDisplay = document.querySelector('.color-match-score');
+        const colorMatchResetButton = document.getElementById('colorMatchResetButton');
+
+        const colors = [
+            '#FF6347', '#FFD700', '#6A5ACD', '#32CD32', '#FF69B4', // Tomato, Gold, SlateBlue, LimeGreen, HotPink
+            '#1E90FF', '#FF4500', '#BA55D3', '#7FFF00', '#DC143C'  // DodgerBlue, OrangeRed, MediumPurple, Chartreuse, Crimson
+        ];
+        let currentColorIndex;
+        let colorMatchScore = 0;
+        let colorGameActive = false;
+        let colorMatchWinMessageIndex = 0;
+        const colorMatchWinMessages = [
+            'أحسنت! صح عليك! 🎨',
+            'مطابقة رائعة! 🌈',
+            'ممتاز! جبتها صح! 💖'
+        ];
+
+        function getRandomColor() {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function initializeColorMatchGame() {
+            colorMatchScore = 0;
+            colorMatchScoreDisplay.textContent = `النقاط: 0`;
+            colorMatchMessage.textContent = '';
+            colorChoicesGrid.innerHTML = ''; // Clear previous choices
+            colorGameActive = true;
+            generateNewRound();
+        }
+
+        function generateNewRound() {
+            if (!colorGameActive) return;
+
+            colorChoicesGrid.innerHTML = '';
+            colorMatchMessage.textContent = '';
+
+            const targetColor = getRandomColor();
+            targetColorDisplay.style.backgroundColor = targetColor;
+
+            const choiceColors = [targetColor];
+            while (choiceColors.length < 4) { // Generate 3 more distinct random colors
+                const newColor = getRandomColor();
+                if (!choiceColors.includes(newColor)) {
+                    choiceColors.push(newColor);
+                }
+            }
+            shuffleArray(choiceColors); // Shuffle choices
+
+            choiceColors.forEach(color => {
+                const button = document.createElement('button');
+                button.classList.add('color-choice-button');
+                button.style.backgroundColor = color;
+                button.dataset.color = color;
+                button.addEventListener('click', handleColorChoice);
+                colorChoicesGrid.appendChild(button);
+            });
+        }
+
+        function handleColorChoice(event) {
+            if (!colorGameActive) return;
+
+            const selectedColor = event.target.dataset.color;
+            const targetColor = targetColorDisplay.style.backgroundColor;
+
+            // Convert targetColor to hex if it's RGB (browser might return RGB)
+            const rgbToHex = (rgb) => {
+                const parts = rgb.match(/\d+/g);
+                if (parts && parts.length >= 3) {
+                    const toHex = (c) => ('0' + parseInt(c).toString(16)).slice(-2);
+                    return '#' + toHex(parts[0]) + toHex(parts[1]) + toHex(parts[2]).toUpperCase();
+                }
+                return rgb; // Return as is if not in expected RGB format
+            };
+
+            const targetColorHex = targetColor.startsWith('rgb') ? rgbToHex(targetColor) : targetColor;
+
+            if (selectedColor.toUpperCase() === targetColorHex.toUpperCase()) {
+                colorMatchScore++;
+                colorMatchScoreDisplay.textContent = `النقاط: ${colorMatchScore}`;
+                colorMatchMessage.textContent = colorMatchWinMessages[colorMatchWinMessageIndex];
+                colorMatchWinMessageIndex = (colorMatchWinMessageIndex + 1) % colorMatchWinMessages.length;
+                setTimeout(generateNewRound, 1000); // Next round after 1 second
+            } else {
+                colorMatchMessage.textContent = 'خطأ. حاول مرة ثانية.';
+            }
+        }
+
+        colorMatchResetButton.addEventListener('click', initializeColorMatchGame);
+
+
+        // Initial setup on window load
         window.onload = function() {
             console.log('الصفحة جاهزة. الرجاء النقر على زر التشغيل.');
+            initializeGuessNumberGame(); // Initialize Guess the Number game on load
+            initializeMemoryGame(); // Initialize Memory Match game on load
+            createMoleHoles(); // Create mole holes for Whack-a-Mole
+            initializeColorMatchGame(); // Initialize Color Match game on load
+            // Bubble Pop game starts with a button click, no initial setup needed here
         };
     </script>
 </body>
