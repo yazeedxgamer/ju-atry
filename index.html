@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sموقع براعم جوجو</title>
+    <title>موقع براعم جوجو</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -1256,13 +1256,13 @@
             justify-content: center;
             align-items: center;
             font-size: 1.8rem;
-            cursor: grab;
+            cursor: pointer; /* Changed from grab */
             transition: transform 0.1s ease-out;
             user-select: none; /* Prevent text selection */
         }
-        .match3-cell.dragging {
-            opacity: 0.7;
-            transform: scale(1.1);
+        .match3-cell.selected { /* New class for selected cell */
+            border: 2px solid #f8bbd0; /* Highlight selected cell */
+            transform: scale(1.05);
         }
         .match3-cell.matched {
             animation: fadeOut 0.5s forwards;
@@ -2024,8 +2024,7 @@
             <h2 class="text-blue-200 mb-4">🎮 ألعاب جوجو 🎮</h2>
 
             <div class="match3-game">
-                <h3>لعبة مطابقة الرموز (كاندي كراش) 🍬</h3>
-                <p class="match3-score">النقاط: 0</p>
+                <h3>لعبة كاندي كراش 🍭</h3> <p class="match3-score">النقاط: 0</p>
                 <p class="match3-moves">الحركات المتبقية: 20</p>
                 <div id="match3Grid" class="match3-grid-container"></div>
                 <div class="match3-controls">
@@ -3672,7 +3671,7 @@
         let match3Board = [];
         let match3Score = 0;
         let match3Moves = 20;
-        let selectedCell = null; // Stores the first clicked cell
+        let selectedCell = null; // Stores the first clicked cell element
         let isProcessingMatch = false; // To prevent new clicks during match processing
         let match3GameRunning = false;
         const match3EndMessages = [
@@ -3704,15 +3703,7 @@
                 const cell = document.createElement('div');
                 cell.classList.add('match3-cell');
                 cell.dataset.index = i;
-                // Add touch event listeners for drag-like behavior
-                cell.addEventListener('touchstart', handleMatch3TouchStart, { passive: false });
-                cell.addEventListener('touchmove', handleMatch3TouchMove, { passive: false });
-                cell.addEventListener('touchend', handleMatch3TouchEnd);
-                // Keep mouse events for desktop
-                cell.addEventListener('dragstart', handleMatch3DragStart);
-                cell.addEventListener('dragover', handleMatch3DragOver);
-                cell.addEventListener('drop', handleMatch3Drop);
-                cell.addEventListener('dragend', handleMatch3DragEnd);
+                cell.addEventListener('click', handleMatch3Click); // Use click for both mouse and touch
                 match3Grid.appendChild(cell);
                 match3Board.push(''); // Placeholder for emoji
             }
@@ -3743,120 +3734,51 @@
             }
         }
 
-        // Mouse Drag Events (existing)
-        function handleMatch3DragStart(e) {
-            if (!match3GameRunning || isProcessingMatch) {
-                e.preventDefault();
-                return;
-            }
-            selectedCell = e.target;
-            e.dataTransfer.setData('text/plain', selectedCell.dataset.index); // Store index of dragged cell
-            selectedCell.classList.add('dragging');
-        }
-
-        function handleMatch3DragOver(e) {
-            e.preventDefault(); // Allow drop
-        }
-
-        function handleMatch3Drop(e) {
-            e.preventDefault();
+        function handleMatch3Click(e) {
             if (!match3GameRunning || isProcessingMatch) return;
 
-            const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
-            const droppedCell = e.target;
-            const droppedIndex = parseInt(droppedCell.dataset.index);
+            const clickedCell = e.target;
+            const clickedIndex = parseInt(clickedCell.dataset.index);
 
-            // Check if they are adjacent
-            const draggedRow = Math.floor(draggedIndex / gridSize);
-            const draggedCol = draggedIndex % gridSize;
-            const droppedRow = Math.floor(droppedIndex / gridSize);
-            const droppedCol = droppedIndex % gridSize;
-
-            const isAdjacent = (
-                (Math.abs(draggedRow - droppedRow) === 1 && draggedCol === droppedCol) || // Vertical
-                (Math.abs(draggedCol - droppedCol) === 1 && draggedRow === droppedRow)    // Horizontal
-            );
-
-            if (isAdjacent) {
-                swapCells(draggedIndex, droppedIndex);
-                match3Moves--;
-                match3MovesDisplay.textContent = `الحركات المتبقية: ${match3Moves}`;
-                setTimeout(processBoard, 500); // Process board after swap
+            if (selectedCell === null) {
+                // First click: select this cell
+                selectedCell = clickedCell;
+                selectedCell.classList.add('selected');
             } else {
-                // If not adjacent, just reset visual
-                selectedCell.classList.remove('dragging');
-                selectedCell = null;
-            }
-        }
+                // Second click: attempt to swap
+                const selectedIndex = parseInt(selectedCell.dataset.index);
 
-        function handleMatch3DragEnd(e) {
-            selectedCell.classList.remove('dragging');
-            selectedCell = null;
-        }
-
-        // Touch Drag Events (NEW)
-        let touchStartCell = null; // The cell where touch started
-        let touchStartTime = 0; // To differentiate tap from drag
-
-        function handleMatch3TouchStart(e) {
-            if (!match3GameRunning || isProcessingMatch) {
-                e.preventDefault(); // Prevent default if game not running or processing
-                return;
-            }
-            e.preventDefault(); // Prevent scrolling and text selection
-            touchStartCell = e.target;
-            touchStartTime = Date.now();
-            touchStartCell.classList.add('dragging'); // Visual feedback for touch start
-        }
-
-        function handleMatch3TouchMove(e) {
-            if (!match3GameRunning || isProcessingMatch) return;
-            e.preventDefault(); // Prevent scrolling during touch move
-            // No need for complex visual feedback during touchmove for this simple game
-        }
-
-        function handleMatch3TouchEnd(e) {
-            if (!match3GameRunning || isProcessingMatch) return;
-            
-            const touchDuration = Date.now() - touchStartTime;
-            if (touchDuration < 200) { // Consider it a tap if very short, not a drag
-                touchStartCell.classList.remove('dragging');
-                touchStartCell = null;
-                return;
-            }
-
-            const touch = e.changedTouches[0];
-            const endX = touch.clientX;
-            const endY = touch.clientY;
-
-            // Find the element at the touch end coordinates
-            const droppedCell = document.elementFromPoint(endX, endY);
-
-            if (touchStartCell && droppedCell && droppedCell.classList.contains('match3-cell')) {
-                const draggedIndex = parseInt(touchStartCell.dataset.index);
-                const droppedIndex = parseInt(droppedCell.dataset.index);
-
-                const draggedRow = Math.floor(draggedIndex / gridSize);
-                const draggedCol = draggedIndex % gridSize;
-                const droppedRow = Math.floor(droppedIndex / gridSize);
-                const droppedCol = droppedIndex % gridSize;
+                // Check if adjacent
+                const selectedRow = Math.floor(selectedIndex / gridSize);
+                const selectedCol = selectedIndex % gridSize;
+                const clickedRow = Math.floor(clickedIndex / gridSize);
+                const clickedCol = clickedIndex % gridSize;
 
                 const isAdjacent = (
-                    (Math.abs(draggedRow - droppedRow) === 1 && draggedCol === droppedCol) || // Vertical
-                    (Math.abs(draggedCol - droppedCol) === 1 && draggedRow === droppedRow)    // Horizontal
+                    (Math.abs(selectedRow - clickedRow) === 1 && selectedCol === clickedCol) || // Vertical
+                    (Math.abs(selectedCol - clickedCol) === 1 && selectedRow === clickedRow)    // Horizontal
                 );
 
                 if (isAdjacent) {
-                    swapCells(draggedIndex, droppedIndex);
+                    // Perform swap
+                    swapCells(selectedIndex, clickedIndex);
                     match3Moves--;
                     match3MovesDisplay.textContent = `الحركات المتبقية: ${match3Moves}`;
-                    setTimeout(processBoard, 500);
+                    
+                    // Remove selection highlight
+                    selectedCell.classList.remove('selected');
+                    selectedCell = null;
+
+                    // Process board after swap
+                    setTimeout(processBoard, 500); 
+                } else {
+                    // Not adjacent, deselect previous and select new
+                    selectedCell.classList.remove('selected');
+                    selectedCell = clickedCell;
+                    selectedCell.classList.add('selected');
                 }
             }
-            touchStartCell.classList.remove('dragging');
-            touchStartCell = null;
         }
-
 
         function swapCells(index1, index2) {
             const tempEmoji = match3Board[index1];
@@ -3879,9 +3801,6 @@
                     setTimeout(processBoard, 600); // Recursively process until no more matches
                 }, 600); // Wait for fadeOut animation
             } else {
-                // No matches after swap, swap back if it was a valid move but no match
-                // For simplicity, we won't swap back in this version.
-                // In a full game, you'd check if the swap *created* a match.
                 isProcessingMatch = false;
                 checkGameEndMatch3();
             }
