@@ -863,21 +863,675 @@
             transform: translateY(-2px);
         }
 
-        /* أنماط خاصة بالفوتر */
-        .footer {
-            margin-top: 3rem;
-            color: #e0f7fa;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(224, 247, 250, 0.3);
+        /* أنماط لعبة التقاط النجوم */
+        .catch-stars-game {
+            width: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            margin-bottom: 2rem;
         }
-        .footer .heart-icon-footer {
+        .catch-stars-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .stars-area {
+            width: 100%;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+        }
+        .falling-star {
+            position: absolute;
+            font-size: 2.5rem;
+            cursor: pointer;
+            top: -50px; /* Start above the visible area */
+            animation: fall linear infinite;
+            opacity: 0;
+            transition: transform 0.1s ease-out;
+        }
+        .falling-star:active {
+            transform: scale(1.2);
+        }
+        @keyframes fall {
+            0% { top: -50px; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .catch-stars-score, .catch-stars-time {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        .catch-stars-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .catch-stars-button {
+            background-color: #f8bbd0;
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .catch-stars-button:hover {
+            background-color: #f48fb1;
+            transform: translateY(-2px);
+        }
+
+        /* أنماط لوحة الرسم */
+        .drawing-pad-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .drawing-pad-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .drawing-canvas {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            touch-action: none; /* Prevent scrolling on touch */
+            width: 100%; /* Make canvas responsive */
+            max-width: 480px; /* Max width for larger screens */
+            height: 300px; /* Fixed height, can be adjusted */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .drawing-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap; /* Allow controls to wrap on smaller screens */
+            justify-content: center;
+        }
+        .drawing-controls button {
+            background-color: #81c784;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .drawing-controls button:hover {
+            background-color: #66bb6a;
+            transform: translateY(-2px);
+        }
+        .drawing-controls input[type="color"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            overflow: hidden;
+            padding: 0;
+        }
+        .drawing-controls input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        .drawing-controls input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%;
+        }
+        .drawing-controls input[type="color"]::-moz-color-swatch-wrapper {
+            padding: 0;
+        }
+        .drawing-controls input[type="color"]::-moz-color-swatch {
+            border: none;
+            border-radius: 50%;
+        }
+        .drawing-controls input[type="range"] {
+            width: 100px;
+            margin: 0 0.5rem;
+        }
+
+        /* أنماط لعبة اضرب الرقم */
+        .whack-a-number-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .whack-a-number-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .whack-a-number-target {
             color: #f8bbd0;
             font-size: 1.5rem;
-            animation: beat 1s infinite alternate;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .whack-a-number-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 100px); /* 3 أعمدة */
+            grid-template-rows: repeat(3, 100px); /* 3 صفوف */
+            gap: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 15px;
+            max-width: 360px;
+        }
+        .number-hole {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .number-display {
+            font-size: 3.5rem;
+            position: absolute;
+            bottom: -100%;
+            transition: bottom 0.2s ease-out;
+            cursor: pointer;
+            color: #e0f7fa;
+        }
+        .number-display.up {
+            bottom: 0;
+        }
+        .whack-a-number-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .whack-a-number-button {
+            background-color: #f8bbd0;
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .whack-a-number-button:hover {
+            background-color: #f48fb1;
+            transform: translateY(-2px);
+        }
+        .whack-a-number-score, .whack-a-number-time {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        /* أنماط لعبة سرعة البديهة */
+        .reaction-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .reaction-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .reaction-button {
+            width: 150px;
+            height: 150px;
+            background-color: #ccc; /* Default color */
+            border-radius: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #332e40;
+            cursor: pointer;
+            transition: background-color 0.1s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1rem;
+        }
+        .reaction-button.ready {
+            background-color: #FFD700; /* Gold */
+        }
+        .reaction-button.go {
+            background-color: #32CD32; /* LimeGreen */
+        }
+        .reaction-message {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            min-height: 25px;
+        }
+        .reaction-time-display {
+            color: #f8bbd0;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .reaction-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .reaction-controls button {
+            background-color: #7e57c2;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .reaction-controls button:hover {
+            background-color: #673ab7;
+            transform: translateY(-2px);
+        }
+
+        /* أنماط لعبة تسلسل الذاكرة */
+        .memory-sequence-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .memory-sequence-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .sequence-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 100px);
+            grid-template-rows: repeat(2, 100px);
+            gap: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 15px;
+            max-width: 230px; /* (100*2) + (15*1) + (15*2) = 200 + 15 + 30 = 245px, adjusted */
+        }
+        .sequence-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 1rem;
+            background-color: #ccc; /* Default color */
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .sequence-button.highlight {
+            filter: brightness(1.5);
+            transform: scale(1.05);
+        }
+        .sequence-button:active {
+            transform: scale(0.95);
+        }
+        .sequence-status {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            min-height: 25px;
+        }
+        .sequence-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .sequence-controls button {
+            background-color: #f8bbd0;
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .sequence-controls button:hover {
+            background-color: #f48fb1;
+            transform: translateY(-2px);
+        }
+
+        /* New Game: Match 3 (Candy Crush-like) */
+        .match3-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .match3-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .match3-grid-container {
+            display: grid;
+            grid-template-columns: repeat(8, 40px); /* 8x8 grid */
+            grid-template-rows: repeat(8, 40px);
+            gap: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 5px;
+            max-width: calc(8 * 40px + 7 * 2px + 10px); /* Adjust for gap and padding */
+        }
+        .match3-cell {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 0.3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            cursor: grab;
+            transition: transform 0.1s ease-out;
+            user-select: none; /* Prevent text selection */
+        }
+        .match3-cell.dragging {
+            opacity: 0.7;
+            transform: scale(1.1);
+        }
+        .match3-cell.matched {
+            animation: fadeOut 0.5s forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0); }
+        }
+        .match3-score, .match3-moves {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        .match3-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .match3-button {
+            background-color: #f8bbd0;
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .match3-button:hover {
+            background-color: #f48fb1;
+            transform: translateY(-2px);
+        }
+
+        /* New Game: Drag and Drop Sorting */
+        .sorting-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .sorting-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .sorting-items-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .draggable-item {
+            background-color: #b3e5fc;
+            color: #332e40;
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.75rem;
+            font-size: 1.5rem;
+            cursor: grab;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+        .draggable-item:hover {
+            transform: translateY(-3px);
+        }
+        .drop-zones-container {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .drop-zone {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px dashed #e0f7fa;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            min-width: 150px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #e0f7fa;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .drop-zone.drag-over {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #f8bbd0;
+        }
+        .sorting-message {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            min-height: 25px;
+        }
+        .sorting-score {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        .sorting-button {
+            background-color: #7e57c2;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            margin-top: 1rem;
+        }
+        .sorting-button:hover {
+            background-color: #673ab7;
+            transform: translateY(-2px);
+        }
+
+        /* New Game: Quick Click */
+        .quick-click-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .quick-click-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .click-area {
+            width: 100%;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+        }
+        .target-button {
+            position: absolute;
+            background-color: #f8bbd0;
+            color: #332e40;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s ease-out, background-color 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .target-button:active {
+            transform: scale(0.9);
+        }
+        .quick-click-score, .quick-click-time {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        .quick-click-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .quick-click-button {
+            background-color: #b3e5fc;
+            color: #332e40;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .quick-click-button:hover {
+            background-color: #81d4fa;
+            transform: translateY(-2px);
+        }
+
+        /* New Game: Maze Game */
+        .maze-game {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .maze-game h3 {
+            color: #e0f7fa;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .maze-canvas {
+            background-color: #221c27;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            touch-action: none; /* Prevent scrolling on touch */
+            width: 100%;
+            max-width: 480px;
+            height: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .maze-message {
+            color: #e0f7fa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            min-height: 25px;
+        }
+        .maze-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .maze-button {
+            background-color: #81c784;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .maze-button:hover {
+            background-color: #66bb6a;
+            transform: translateY(-2px);
+        }
+
+        /* Show Games Button */
+        #showGamesButton {
+            background-color: #b3e5fc;
+            color: #332e40;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 2.5rem;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        #showGamesButton:hover {
+            background-color: #81d4fa;
+            transform: translateY(-3px);
+        }
+        #showGamesButton:active {
+            transform: translateY(0);
+        }
+
+        /* Princess Message */
+        #princessMessage {
+            color: #f8bbd0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(248, 187, 208, 0.7);
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
 
@@ -1026,6 +1680,119 @@
                 width: 80px;
                 height: 80px;
             }
+            /* Catch Stars adjustments */
+            .stars-area {
+                height: 250px;
+            }
+            .falling-star {
+                font-size: 2rem;
+            }
+            .catch-stars-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            /* Drawing Pad adjustments */
+            .drawing-canvas {
+                height: 250px;
+            }
+            .drawing-controls button {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+            .drawing-controls input[type="color"] {
+                width: 30px;
+                height: 30px;
+            }
+            .drawing-controls input[type="range"] {
+                width: 80px;
+            }
+            /* Whack-a-Number adjustments */
+            .whack-a-number-target {
+                font-size: 1.2rem;
+            }
+            .whack-a-number-grid {
+                grid-template-columns: repeat(3, 80px);
+                grid-template-rows: repeat(3, 80px);
+                gap: 10px;
+                max-width: 270px;
+            }
+            .number-hole {
+                width: 80px;
+                height: 80px;
+            }
+            .number-display {
+                font-size: 2.8rem;
+            }
+            .whack-a-number-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            /* Reaction Time adjustments */
+            .reaction-button {
+                width: 120px;
+                height: 120px;
+                font-size: 1.2rem;
+            }
+            .reaction-time-display {
+                font-size: 1.1rem;
+            }
+            .reaction-controls button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            /* Memory Sequence adjustments */
+            .sequence-buttons {
+                grid-template-columns: repeat(2, 80px);
+                grid-template-rows: repeat(2, 80px);
+                gap: 10px;
+                max-width: 190px;
+            }
+            .sequence-button {
+                width: 80px;
+                height: 80px;
+            }
+            .sequence-controls button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            /* Match 3 adjustments */
+            .match3-grid-container {
+                grid-template-columns: repeat(8, 35px);
+                grid-template-rows: repeat(8, 35px);
+                max-width: calc(8 * 35px + 7 * 2px + 10px);
+            }
+            .match3-cell {
+                width: 35px;
+                height: 35px;
+                font-size: 1.5rem;
+            }
+            .match3-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            /* Sorting Game adjustments */
+            .draggable-item {
+                font-size: 1.2rem;
+                padding: 0.6rem 1rem;
+            }
+            .drop-zone {
+                min-width: 120px;
+                min-height: 80px;
+                font-size: 1rem;
+                padding: 1rem;
+            }
+            .sorting-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            #showGamesButton {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.5rem;
+            }
+            #princessMessage {
+                font-size: 1.5rem;
+            }
             .footer {
                 font-size: 1rem;
             }
@@ -1103,18 +1870,76 @@
             .bubble {
                 font-size: 1rem;
             }
-            /* Color Match adjustments */
-            .target-color-display {
-                width: 80px;
-                height: 80px;
+            /* Catch Stars adjustments */
+            .stars-area {
+                height: 200px;
             }
-            .color-choices-grid {
-                grid-template-columns: repeat(2, 60px);
+            .falling-star {
+                font-size: 1.8rem;
+            }
+            /* Drawing Pad adjustments */
+            .drawing-canvas {
+                height: 200px;
+            }
+            /* Whack-a-Number adjustments */
+            .whack-a-number-grid {
+                grid-template-columns: repeat(3, 60px);
+                grid-template-rows: repeat(3, 60px);
                 gap: 8px;
+                max-width: 200px;
             }
-            .color-choice-button {
+            .number-hole {
                 width: 60px;
                 height: 60px;
+            }
+            .number-display {
+                font-size: 2.2rem;
+            }
+            /* Reaction Time adjustments */
+            .reaction-button {
+                width: 100px;
+                height: 100px;
+                font-size: 1rem;
+            }
+            /* Memory Sequence adjustments */
+            .sequence-buttons {
+                grid-template-columns: repeat(2, 60px);
+                grid-template-rows: repeat(2, 60px);
+                gap: 8px;
+                max-width: 140px;
+            }
+            .sequence-button {
+                width: 60px;
+                height: 60px;
+            }
+            /* Match 3 adjustments */
+            .match3-grid-container {
+                grid-template-columns: repeat(8, 30px);
+                grid-template-rows: repeat(8, 30px);
+                max-width: calc(8 * 30px + 7 * 2px + 10px);
+            }
+            .match3-cell {
+                width: 30px;
+                height: 30px;
+                font-size: 1.2rem;
+            }
+            /* Sorting Game adjustments */
+            .draggable-item {
+                font-size: 1rem;
+                padding: 0.5rem 0.8rem;
+            }
+            .drop-zone {
+                min-width: 100px;
+                min-height: 70px;
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+            #showGamesButton {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            #princessMessage {
+                font-size: 1.2rem;
             }
             .footer {
                 font-size: 0.9rem;
@@ -1181,21 +2006,57 @@
             </button>
         </div>
 
-        <div class="gemini-feature-section">
-            <h2 class="text-purple-200 mb-4">✨ اسأل الذكاء الاصطناعي ✨</h2>
-            <textarea id="aiQuestionInput" placeholder="اكتب سؤالك هنا (مثلاً: ليش السما زرقا؟، كيف تنام القطط؟)"></textarea>
-            <button id="askAiButton">
-                اسأل ✨
-            </button>
-            <div id="aiLoadingIndicator" class="loading-indicator hidden">
-                <div class="spinner"></div>
-                <span class="mr-2">جاري الإجابة...</span>
-            </div>
-            <div id="aiAnswerOutput" class="gemini-output hidden"></div>
-        </div>
+        <button id="showGamesButton">طفشانة؟ ودك العاب تسليك؟</button>
+        <p id="princessMessage" class="hidden">ابشري يالأميرة! تفضلي الألعاب:</p>
 
-        <div class="games-section">
+        <div id="gamesSectionWrapper" class="games-section hidden">
             <h2 class="text-blue-200 mb-4">🎮 ألعاب جوجو 🎮</h2>
+
+            <div class="match3-game">
+                <h3>لعبة مطابقة الرموز (كاندي كراش) 🍬</h3>
+                <p class="match3-score">النقاط: 0</p>
+                <p class="match3-moves">الحركات المتبقية: 20</p>
+                <div id="match3Grid" class="match3-grid-container"></div>
+                <div class="match3-controls">
+                    <button id="match3StartButton" class="match3-button">ابدا اللعبة</button>
+                    <button id="match3ResetButton" class="match3-button hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
+            <div class="sorting-game">
+                <h3>لعبة التصنيف 📦</h3>
+                <p class="sorting-score">النقاط: 0</p>
+                <div id="sortingItems" class="sorting-items-container"></div>
+                <div class="drop-zones-container">
+                    <div class="drop-zone" data-category="fruits">فواكه 🍎</div>
+                    <div class="drop-zone" data-category="animals">حيوانات 🦁</div>
+                    <div class="drop-zone" data-category="vehicles">مركبات 🚗</div>
+                </div>
+                <p class="sorting-message"></p>
+                <button id="sortingResetButton" class="sorting-button">إعادة اللعبة</button>
+            </div>
+
+            <div class="quick-click-game">
+                <h3>لعبة الضغط السريع 🚀</h3>
+                <p class="quick-click-score">النقاط: 0</p>
+                <p class="quick-click-time">الوقت: 15 ثانية</p>
+                <div id="clickArea" class="click-area">
+                    <button id="targetButton" class="target-button hidden">اضغط!</button>
+                </div>
+                <div class="quick-click-controls">
+                    <button id="quickClickStartButton" class="quick-click-button">ابدا اللعبة</button>
+                    <button id="quickClickResetButton" class="quick-click-button hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
+            <div class="maze-game">
+                <h3>لعبة المتاهة 🗺️</h3>
+                <canvas id="mazeCanvas" class="maze-canvas"></canvas>
+                <p class="maze-message">استخدم الأسهم أو اسحب للتحرك</p>
+                <div class="maze-controls">
+                    <button id="mazeResetButton" class="maze-button">إعادة اللعبة</button>
+                </div>
+            </div>
 
             <div class="tic-tac-toe-game">
                 <h3>لعبة إكس أو</h3>
@@ -1276,6 +2137,67 @@
                 <button id="colorMatchResetButton" class="color-match-reset-button">إعادة اللعبة</button>
             </div>
 
+            <div class="catch-stars-game">
+                <h3>التقط النجوم ✨</h3>
+                <p class="catch-stars-score">النقاط: 0</p>
+                <p class="catch-stars-time">الوقت: 20 ثانية</p>
+                <div id="starsArea" class="stars-area">
+                    </div>
+                <div class="catch-stars-controls">
+                    <button id="catchStarsStartButton" class="catch-stars-button">ابدا اللعبة</button>
+                    <button id="catchStarsResetButton" class="catch-stars-button hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
+            <div class="drawing-pad-game">
+                <h3>لوحة الرسم 🖌️</h3>
+                <canvas id="drawingCanvas" class="drawing-canvas"></canvas>
+                <div class="drawing-controls">
+                    <input type="color" id="colorPicker" value="#f8bbd0">
+                    <input type="range" id="brushSize" min="1" max="10" value="3">
+                    <button id="clearCanvasButton">مسح الكل</button>
+                </div>
+            </div>
+
+            <div class="whack-a-number-game">
+                <h3>اضرب الرقم 🔢</h3>
+                <p class="whack-a-number-target">اضغط على الرقم: <span id="whackANumberTarget"></span></p>
+                <p class="whack-a-number-score">النقاط: 0</p>
+                <p class="whack-a-number-time">الوقت: 30 ثانية</p>
+                <div id="whackANumberGrid" class="whack-a-number-grid">
+                    </div>
+                <div class="whack-a-number-controls">
+                    <button id="whackANumberStartButton" class="whack-a-number-button">ابدا اللعبة</button>
+                    <button id="whackANumberResetButton" class="whack-a-number-button hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
+            <div class="reaction-game">
+                <h3>لعبة سرعة البديهة ⚡</h3>
+                <div id="reactionButton" class="reaction-button">اضغط للبدء</div>
+                <p id="reactionMessage" class="reaction-message"></p>
+                <p id="reactionTimeDisplay" class="reaction-time-display"></p>
+                <div class="reaction-controls">
+                    <button id="reactionStartButton">ابدا اللعبة</button>
+                    <button id="reactionResetButton" class="hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
+            <div class="memory-sequence-game">
+                <h3>لعبة تسلسل الذاكرة 💡</h3>
+                <p class="sequence-status">المستوى: 1</p>
+                <div id="sequenceButtons" class="sequence-buttons">
+                    <button class="sequence-button" data-color="red" style="background-color: #EF5350;"></button>
+                    <button class="sequence-button" data-color="green" style="background-color: #66BB6A;"></button>
+                    <button class="sequence-button" data-color="blue" style="background-color: #42A5F5;"></button>
+                    <button class="sequence-button" data-color="yellow" style="background-color: #FFCA28;"></button>
+                </div>
+                <div class="sequence-controls">
+                    <button id="sequenceStartButton">ابدا اللعبة</button>
+                    <button id="sequenceResetButton" class="hidden">إعادة اللعبة</button>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -1298,12 +2220,10 @@
         const storyOutput = document.getElementById('storyOutput');
         const listenStoryButton = document.getElementById('listenStoryButton');
 
-        // Get references to AI Q&A elements
-        const aiQuestionInput = document.getElementById('aiQuestionInput');
-        const askAiButton = document.getElementById('askAiButton');
-        const aiLoadingIndicator = document.getElementById('aiLoadingIndicator');
-        const aiAnswerOutput = document.getElementById('aiAnswerOutput');
-
+        // Get references to games section and show games button
+        const showGamesButton = document.getElementById('showGamesButton');
+        const princessMessage = document.getElementById('princessMessage');
+        const gamesSectionWrapper = document.getElementById('gamesSectionWrapper');
 
         // Event listener for playing the audio
         playButton.addEventListener('click', () => {
@@ -1323,7 +2243,7 @@
         generateStoryButton.addEventListener('click', async () => {
             const promptText = storyPromptInput.value.trim();
             if (!promptText) {
-                storyOutput.textContent = 'اكتب فكرة القصة أول شيء.'; // Prompt user for input
+                storyOutput.textContent = 'اكتبي فكرة القصة أول شيء.'; // Prompt user for input
                 storyOutput.classList.remove('hidden');
                 listenStoryButton.classList.add('hidden'); // Hide listen button if no story
                 return;
@@ -1337,7 +2257,7 @@
             try {
                 let chatHistory = [];
                 // Construct the prompt for the Gemini API
-                chatHistory.push({ role: "user", parts: [{ text: `اكتب قصة نوم قصيرة وهادئة ولطيفة للأطفال عن: ${promptText}. القصة يجب أن تكون مناسبة للأطفال الصغار وتساعدهم على الاسترخاء والنوم. اجعلها حوالي 100-150 كلمة. لا تستخدم أي مقدمات أو خاتمات للقصة، فقط نص القصة.` }] });
+                chatHistory.push({ role: "user", parts: [{ text: `اكتبي قصة نوم قصيرة وهادئة ولطيفة للأطفال عن: ${promptText}. القصة يجب أن تكون مناسبة للأطفال الصغار وتساعدهم على الاسترخاء والنوم. اجعليها حوالي 100-150 كلمة. لا تستخدمي أي مقدمات أو خاتمات للقصة، فقط نص القصة.` }] });
                 const payload = { contents: chatHistory };
                 // API key is left empty as it will be provided by the Canvas environment
                 const apiKey = ""; 
@@ -1360,7 +2280,7 @@
                     storyOutput.classList.remove('hidden'); // Show the story output
                     listenStoryButton.classList.remove('hidden'); // Show listen button after successful generation
                 } else {
-                    storyOutput.textContent = 'عذراً، لم أتمكن من كتابة القصة. حاول مرة ثانية.'; // Error message for user
+                    storyOutput.textContent = 'عذراً، لم أتمكن من كتابة القصة. حاولي مرة ثانية.'; // Error message for user
                     storyOutput.classList.remove('hidden');
                     listenStoryButton.classList.add('hidden'); // Hide listen button on failure
                     console.error('استجابة غير متوقعة من Gemini API:', result); // Log unexpected API response
@@ -1401,52 +2321,11 @@
             }
         });
 
-        // AI Q&A Logic (Gemini API)
-        askAiButton.addEventListener('click', async () => {
-            const questionText = aiQuestionInput.value.trim();
-            if (!questionText) {
-                aiAnswerOutput.textContent = 'اكتب سؤالك أول شيء.';
-                aiAnswerOutput.classList.remove('hidden');
-                return;
-            }
-
-            aiLoadingIndicator.classList.remove('hidden');
-            aiAnswerOutput.classList.add('hidden');
-            aiAnswerOutput.textContent = '';
-
-            try {
-                let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: `أجب على هذا السؤال بطريقة بسيطة ولطيفة ومناسبة للأطفال، وباللهجة السعودية العامة: ${questionText}.` }] });
-                const payload = { contents: chatHistory };
-                const apiKey = ""; 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const answer = result.candidates[0].content.parts[0].text;
-                    aiAnswerOutput.textContent = answer;
-                    aiAnswerOutput.classList.remove('hidden');
-                } else {
-                    aiAnswerOutput.textContent = 'عذراً، لم يتمكن الذكاء الاصطناعي من الإجابة على سؤالك. حاول مرة ثانية.';
-                    aiAnswerOutput.classList.remove('hidden');
-                    console.error('استجابة غير متوقعة من Gemini API:', result);
-                }
-            } catch (error) {
-                console.error('خطأ في استدعاء Gemini API للإجابة على الأسئلة:', error);
-                aiAnswerOutput.textContent = 'حدث خطأ أثناء الإجابة على سؤالك. يرجى التأكد من اتصالك بالإنترنت أو المحاولة لاحقاً.';
-                aiAnswerOutput.classList.remove('hidden');
-            } finally {
-                aiLoadingIndicator.classList.add('hidden');
-            }
+        // Logic for showing games section
+        showGamesButton.addEventListener('click', () => {
+            showGamesButton.classList.add('hidden'); // Hide the button
+            princessMessage.classList.remove('hidden'); // Show "ابشري يالاميرة"
+            gamesSectionWrapper.classList.remove('hidden'); // Show the games section
         });
 
 
@@ -1462,12 +2341,13 @@
         let gameActive = true;
         let ticTacToeWinMessageIndex = 0;
         const ticTacToeWinMessages = [
-            'أحسنت! فزت بجدارة! 🎉',
+            'كفو يا شاطرة! فزت بجدارة! 🎉',
             'فوز رائع! 🌟',
             'ما شاء الله! إكس أو حركات! فزت! 🏆',
-            'مبدع! فوز ولا أروع! 💖',
+            'مبدعة! فوز ولا أروع! 💖',
             'لعبك ممتاز! فزت! ✨'
         ];
+        const ticTacToeComputerErrorChance = 0.4; // 40% chance for computer to make a non-optimal move
 
         // Winning conditions for Tic-Tac-Toe
         const winningConditions = [
@@ -1519,64 +2399,75 @@
                 }
             }
 
-            // 1. Check if AI can win
-            for (let i = 0; i < availableMoves.length; i++) {
-                const move = availableMoves[i];
-                board[move] = computerPlayer;
-                if (checkWin(board, computerPlayer)) {
-                    bestMove = move;
-                    board[move] = ''; // Undo for checking other moves
-                    break;
-                }
-                board[move] = ''; // Undo
+            // If no available moves, it's a draw, but handleResultValidation should catch this
+            if (availableMoves.length === 0) {
+                handleResultValidation();
+                return;
             }
 
-            // 2. Check if human can win and block them
-            if (bestMove === -1) {
+            // Introduce a chance for the computer to make a non-optimal (random) move
+            if (Math.random() < ticTacToeComputerErrorChance) {
+                bestMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            } else {
+                // 1. Check if AI can win
                 for (let i = 0; i < availableMoves.length; i++) {
                     const move = availableMoves[i];
-                    board[move] = 'X'; // Simulate opponent's move
-                    if (checkWin(board, 'X')) {
+                    board[move] = computerPlayer;
+                    if (checkWin(board, computerPlayer)) {
                         bestMove = move;
-                        board[move] = ''; // Undo
+                        board[move] = ''; // Undo for checking other moves
                         break;
                     }
                     board[move] = ''; // Undo
                 }
-            }
 
-            // 3. Take center if available
-            if (bestMove === -1 && board[4] === '') {
-                bestMove = 4;
-            }
-
-            // 4. Take a corner if available
-            if (bestMove === -1) {
-                const corners = [0, 2, 6, 8];
-                for (let i = 0; i < corners.length; i++) {
-                    const corner = corners[i];
-                    if (board[corner] === '') {
-                        bestMove = corner;
-                        break;
+                // 2. Check if human can win and block them
+                if (bestMove === -1) {
+                    for (let i = 0; i < availableMoves.length; i++) {
+                        const move = availableMoves[i];
+                        board[move] = 'X'; // Simulate opponent's move
+                        if (checkWin(board, 'X')) {
+                            bestMove = move;
+                            board[move] = ''; // Undo
+                            break;
+                        }
+                        board[move] = ''; // Undo
                     }
                 }
-            }
 
-            // 5. Take any available side
-            if (bestMove === -1) {
-                const sides = [1, 3, 5, 7];
-                for (let i = 0; i < sides.length; i++) {
-                    const side = sides[i];
-                    if (board[side] === '') {
-                        bestMove = side;
-                        break;
+                // 3. Take center if available
+                if (bestMove === -1 && board[4] === '') {
+                    bestMove = 4;
+                }
+
+                // 4. Take a corner if available
+                if (bestMove === -1) {
+                    const corners = [0, 2, 6, 8];
+                    for (let i = 0; i < corners.length; i++) {
+                        const corner = corners[i];
+                        if (board[corner] === '') {
+                            bestMove = corner;
+                            break;
+                        }
                     }
                 }
-            }
 
-            // If no strategic move, pick a random available spot
-            if (bestMove === -1 && availableMoves.length > 0) {
-                bestMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+                // 5. Take any available side
+                if (bestMove === -1) {
+                    const sides = [1, 3, 5, 7];
+                    for (let i = 0; i < sides.length; i++) {
+                        const side = sides[i];
+                        if (board[side] === '') {
+                            bestMove = side;
+                            break;
+                        }
+                    }
+                }
+
+                // If no strategic move found, pick a random available spot (fallback)
+                if (bestMove === -1 && availableMoves.length > 0) {
+                    bestMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+                }
             }
             
             // Apply the AI's chosen move
@@ -1658,14 +2549,14 @@
         const rpsChoices = document.querySelectorAll('.rps-choice-button');
         const rpsResult = document.getElementById('rpsResult');
         const rpsWinMessages = [
-            'فزت! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
-            'أحسنت! فزت هذه المرة! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
-            'فوز رائع! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.'
+            'كفو! فزت! أنتِ اخترتِ ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'أحسنتِ! فزتِ هذه المرة! أنتِ اخترتِ ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'فوز رائع! أنتِ اخترتِ ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.'
         ];
         const rpsLoseMessages = [
-            'خسرت هذه المرة! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
-            'حظ أوفر المرة القادمة! أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
-            'الكمبيوتر فاز هذه المرة. أنت اخترت ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.'
+            'خسرتِ هذه المرة! أنتِ اخترتِ ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'حظ أوفر المرة القادمة! أنتِ اخترتِ ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.',
+            'الكمبيوتر فاز هذه المرة. أنتِ اخترتِ ${playerChoiceArabic} والكمبيوتر اختار ${computerChoiceArabic}.'
         ];
         let rpsWinMessageIndex = 0;
         let rpsLoseMessageIndex = 0;
@@ -1730,7 +2621,7 @@
         let gameEnded;
         let guessWinMessageIndex = 0;
         const guessWinMessages = [
-            'أحسنت! خمنت الرقم الصحيح في ${attempts} محاولات! 🎉',
+            'كفو! خمنت الرقم الصحيح في ${attempts} محاولات! 🎉',
             'ممتاز! جبت الرقم صح في ${attempts} محاولات! 🌟',
             'رائع! الرقم السري لم يخف عليك! فوز رائع في ${attempts} محاولات! 🏆'
         ];
@@ -1755,7 +2646,7 @@
             const userGuess = parseInt(guessInput.value);
 
             if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
-                guessMessage.textContent = 'أدخل رقم صحيح بين 1 و 100.';
+                guessMessage.textContent = 'أدخلي رقم صحيح بين 1 و 100.';
                 return;
             }
 
@@ -1769,9 +2660,9 @@
                 guessInput.disabled = true;
                 guessButton.disabled = true;
             } else if (userGuess < secretNumber) {
-                guessMessage.textContent = 'الرقم السري أكبر. حاول مرة أخرى.';
+                guessMessage.textContent = 'الرقم السري أكبر. حاولي مرة أخرى.';
             } else {
-                guessMessage.textContent = 'الرقم السري أصغر. حاول مرة أخرى.';
+                guessMessage.textContent = 'الرقم السري أصغر. حاولي مرة أخرى.';
             }
             guessInput.value = ''; // Clear input after guess
         }
@@ -1798,8 +2689,8 @@
         let lockBoard = false; // To prevent flipping more than two cards at once
         let memoryWinMessageIndex = 0;
         const memoryWinMessages = [
-            'أحسنت! أكملت اللعبة في ${attemptsMade} محاولات! 🎉',
-            'ذاكرتك قوية! أبدعت في ${attemptsMade} محاولات! 🧠',
+            'كفو! أكملت اللعبة في ${attemptsMade} محاولات! 🎉',
+            'ذاكرتك قوية! أبدعتِ في ${attemptsMade} محاولات! 🧠',
             'ممتاز! كل الأزواج صحيحة في ${attemptsMade} محاولات! 💖'
         ];
 
@@ -1926,9 +2817,9 @@
         let gameRunning = false;
         let whackAMoleEndMessageIndex = 0;
         const whackAMoleEndMessages = [
-            'انتهت اللعبة! جبت ${score} نقطة! 🏆',
+            'كفو! انتهت اللعبة! جبتِ ${score} نقطة! 🏆',
             'انتهى الوقت! نقاطك: ${score}! ✨',
-            'لعبت جيداً! جبت ${score} نقطة! 🎉'
+            'لعبتِ جيداً! جبتِ ${score} نقطة! 🎉'
         ];
 
         // Create mole holes dynamically
@@ -2090,9 +2981,9 @@
         const bubbleEmojis = ['🎈', '🌟', '💧', '✨', '💖', '🫧']; // Emojis for bubbles
         let bubblePopEndMessageIndex = 0;
         const bubblePopEndMessages = [
-            'أحسنت! فرقعت ${bubbleScore} فقاعة! 🫧',
-            'انتهى الوقت! جبت ${bubbleScore} فقاعة! 🎉',
-            'ممتاز! فرقعت ${bubbleScore} فقاعة! 🌟'
+            'كفو! فرقعتِ ${bubbleScore} فقاعة! 🫧',
+            'انتهى الوقت! جبتِ ${bubbleScore} فقاعة! 🎉',
+            'ممتاز! فرقعتِ ${bubbleScore} فقاعة! 🌟'
         ];
 
         function createBubble() {
@@ -2186,9 +3077,9 @@
         let colorGameActive = false;
         let colorMatchWinMessageIndex = 0;
         const colorMatchWinMessages = [
-            'أحسنت! صح عليك! 🎨',
+            'كفو! صح عليك! 🎨',
             'مطابقة رائعة! 🌈',
-            'ممتاز! جبتها صح! 💖'
+            'ممتاز! جبتيها صح! 💖'
         ];
 
         function getRandomColor() {
@@ -2257,11 +3148,1068 @@
                 colorMatchWinMessageIndex = (colorMatchWinMessageIndex + 1) % colorMatchWinMessages.length;
                 setTimeout(generateNewRound, 1000); // Next round after 1 second
             } else {
-                colorMatchMessage.textContent = 'خطأ. حاول مرة ثانية.';
+                colorMatchMessage.textContent = 'خطأ. حاولي مرة ثانية.';
             }
         }
 
         colorMatchResetButton.addEventListener('click', initializeColorMatchGame);
+
+        // New Game 1: Catch the Stars Logic
+        const starsArea = document.getElementById('starsArea');
+        const catchStarsScoreDisplay = document.querySelector('.catch-stars-score');
+        const catchStarsTimeDisplay = document.querySelector('.catch-stars-time');
+        const catchStarsStartButton = document.getElementById('catchStarsStartButton');
+        const catchStarsResetButton = document.getElementById('catchStarsResetButton');
+
+        let catchStarsScore = 0;
+        let catchStarsTimeRemaining = 20;
+        let catchStarsTimerId;
+        let createStarsIntervalId;
+        let catchStarsGameRunning = false;
+        const starEmojis = ['⭐', '🌟', '✨', '💫'];
+        let catchStarsEndMessageIndex = 0;
+        const catchStarsEndMessages = [
+            'كفو! التقطتِ ${score} نجمة! ✨',
+            'انتهى الوقت! نقاطك: ${score} نجمة! 🌟',
+            'أحسنتِ! جمعتِ ${score} نجمة! 🏆'
+        ];
+
+        function createFallingStar() {
+            if (!catchStarsGameRunning) return;
+
+            const star = document.createElement('div');
+            star.classList.add('falling-star');
+            star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+            star.style.left = `${Math.random() * (starsArea.offsetWidth - 50)}px`; // Random horizontal position
+            star.style.animationDuration = `${Math.random() * 2 + 3}s`; // Fall duration 3-5 seconds
+
+            star.addEventListener('click', () => {
+                if (catchStarsGameRunning) {
+                    catchStarsScore++;
+                    catchStarsScoreDisplay.textContent = `النقاط: ${catchStarsScore}`;
+                    star.remove();
+                }
+            });
+
+            starsArea.appendChild(star);
+
+            star.addEventListener('animationend', () => {
+                star.remove();
+            });
+        }
+
+        function startCatchStarsGame() {
+            catchStarsScore = 0;
+            catchStarsTimeRemaining = 20;
+            catchStarsScoreDisplay.textContent = `النقاط: ${catchStarsScore}`;
+            catchStarsTimeDisplay.textContent = `الوقت: ${catchStarsTimeRemaining} ثانية`;
+            catchStarsGameRunning = true;
+            catchStarsStartButton.classList.add('hidden');
+            catchStarsResetButton.classList.add('hidden');
+            starsArea.innerHTML = '';
+
+            catchStarsTimerId = setInterval(() => {
+                catchStarsTimeRemaining--;
+                catchStarsTimeDisplay.textContent = `الوقت: ${catchStarsTimeRemaining} ثانية`;
+                if (catchStarsTimeRemaining <= 0) {
+                    clearInterval(catchStarsTimerId);
+                    clearInterval(createStarsIntervalId);
+                    catchStarsGameRunning = false;
+                    catchStarsTimeDisplay.textContent = `انتهى الوقت!`;
+                    catchStarsStartButton.classList.remove('hidden');
+                    catchStarsResetButton.classList.remove('hidden');
+                    alertUser(catchStarsEndMessages[catchStarsEndMessageIndex].replace('${score}', catchStarsScore));
+                    catchStarsEndMessageIndex = (catchStarsEndMessageIndex + 1) % catchStarsEndMessages.length;
+                    document.querySelectorAll('.falling-star').forEach(s => s.remove());
+                }
+            }, 1000);
+
+            createStarsIntervalId = setInterval(createFallingStar, 700); // Create a new star every 0.7 seconds
+        }
+
+        function resetCatchStarsGame() {
+            clearInterval(catchStarsTimerId);
+            clearInterval(createStarsIntervalId);
+            catchStarsGameRunning = false;
+            catchStarsScore = 0;
+            catchStarsTimeRemaining = 20;
+            catchStarsScoreDisplay.textContent = `النقاط: 0`;
+            catchStarsTimeDisplay.textContent = `الوقت: 20 ثانية`;
+            starsArea.innerHTML = '';
+            catchStarsStartButton.classList.remove('hidden');
+            catchStarsResetButton.classList.add('hidden');
+        }
+
+        catchStarsStartButton.addEventListener('click', startCatchStarsGame);
+        catchStarsResetButton.addEventListener('click', resetCatchStarsGame);
+
+        // New Game 2: Simple Drawing Pad Logic
+        const drawingCanvas = document.getElementById('drawingCanvas');
+        const ctx = drawingCanvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSize = document.getElementById('brushSize');
+        const clearCanvasButton = document.getElementById('clearCanvasButton');
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Set canvas dimensions dynamically
+        function resizeCanvas() {
+            drawingCanvas.width = drawingCanvas.offsetWidth;
+            drawingCanvas.height = drawingCanvas.offsetHeight;
+            ctx.fillStyle = 'white'; // Set background color
+            ctx.fillRect(0, 0, drawingCanvas.width, drawingCanvas.height); // Fill canvas
+        }
+
+        // Initial resize and on window resize
+        window.addEventListener('resize', resizeCanvas);
+        // Call resizeCanvas after the DOM is ready and canvas is rendered
+        setTimeout(resizeCanvas, 100); // Small delay to ensure offsetWidth/Height are correct
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.strokeStyle = colorPicker.value;
+            ctx.lineWidth = brushSize.value;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        drawingCanvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+        drawingCanvas.addEventListener('mousemove', draw);
+        drawingCanvas.addEventListener('mouseup', () => isDrawing = false);
+        drawingCanvas.addEventListener('mouseout', () => isDrawing = false);
+
+        // Touch events for drawing
+        drawingCanvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent scrolling
+            isDrawing = true;
+            const touch = e.touches[0];
+            const rect = drawingCanvas.getBoundingClientRect();
+            lastX = touch.clientX - rect.left;
+            lastY = touch.clientY - rect.top;
+        }, { passive: false });
+
+        drawingCanvas.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent scrolling
+            if (!isDrawing) return;
+            const touch = e.touches[0];
+            const rect = drawingCanvas.getBoundingClientRect();
+            ctx.strokeStyle = colorPicker.value;
+            ctx.lineWidth = brushSize.value;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            ctx.stroke();
+            [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+        }, { passive: false });
+
+        drawingCanvas.addEventListener('touchend', () => isDrawing = false);
+        drawingCanvas.addEventListener('touchcancel', () => isDrawing = false);
+
+
+        clearCanvasButton.addEventListener('click', () => {
+            ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+            ctx.fillStyle = 'white'; // Set background color again after clearing
+            ctx.fillRect(0, 0, drawingCanvas.width, drawingCanvas.height); // Fill canvas
+        });
+
+        // New Game 3: Whack-a-Number Logic
+        const whackANumberGrid = document.getElementById('whackANumberGrid');
+        const whackANumberTargetDisplay = document.getElementById('whackANumberTarget');
+        const whackANumberScoreDisplay = document.querySelector('.whack-a-number-score');
+        const whackANumberTimeDisplay = document.querySelector('.whack-a-number-time');
+        const whackANumberStartButton = document.getElementById('whackANumberStartButton');
+        const whackANumberResetButton = document.getElementById('whackANumberResetButton');
+
+        let whackANumberScore = 0;
+        let whackANumberTimeRemaining = 30;
+        let whackANumberTimerId;
+        let whackANumberInterval;
+        let currentTargetNumber;
+        let whackANumberGameRunning = false;
+        let lastNumberHole;
+        const whackANumberEndMessageIndex = 0;
+        const whackANumberEndMessages = [
+            'كفو! انتهت اللعبة! جبتِ ${score} نقطة! 🏆',
+            'انتهى الوقت! نقاطك: ${score}! ✨',
+            'لعبتِ جيداً! جبتِ ${score} نقطة! 🎉'
+        ];
+
+
+        function createNumberHoles() {
+            whackANumberGrid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const hole = document.createElement('div');
+                hole.classList.add('number-hole');
+                const numberDisplay = document.createElement('div');
+                numberDisplay.classList.add('number-display');
+                numberDisplay.addEventListener('click', handleNumberClick);
+                hole.appendChild(numberDisplay);
+                whackANumberGrid.appendChild(hole);
+            }
+        }
+
+        function getRandomNumberHole() {
+            const holes = document.querySelectorAll('.number-hole');
+            const randomIndex = Math.floor(Math.random() * holes.length);
+            const selectedHole = holes[randomIndex];
+
+            if (selectedHole === lastNumberHole) {
+                return getRandomNumberHole();
+            }
+            lastNumberHole = selectedHole;
+            return selectedHole;
+        }
+
+        function showNumber() {
+            if (!whackANumberGameRunning) return;
+
+            const numberDisplays = document.querySelectorAll('.number-display');
+            numberDisplays.forEach(display => display.classList.remove('up'));
+
+            const randomHole = getRandomNumberHole();
+            const numberToShow = randomHole.querySelector('.number-display');
+            const randomNumber = Math.floor(Math.random() * 9) + 1; // Numbers 1-9
+            numberToShow.textContent = randomNumber;
+            numberToShow.classList.add('up');
+
+            setTimeout(() => {
+                numberToShow.classList.remove('up');
+            }, Math.random() * 800 + 400);
+        }
+
+        function handleNumberClick(event) {
+            if (!whackANumberGameRunning) return;
+
+            const clickedNumber = parseInt(event.target.textContent);
+            if (clickedNumber === currentTargetNumber) {
+                whackANumberScore++;
+                whackANumberScoreDisplay.textContent = `النقاط: ${whackANumberScore}`;
+                event.target.classList.remove('up');
+                setNewTargetNumber(); // Set a new target number after a correct hit
+            } else {
+                // Optional: penalize for wrong click
+                // whackANumberScore = Math.max(0, whackANumberScore - 1);
+                // whackANumberScoreDisplay.textContent = `النقاط: ${whackANumberScore}`;
+            }
+        }
+
+        function setNewTargetNumber() {
+            currentTargetNumber = Math.floor(Math.random() * 9) + 1; // New target 1-9
+            whackANumberTargetDisplay.textContent = currentTargetNumber;
+        }
+
+        function startWhackANumberGame() {
+            whackANumberScore = 0;
+            whackANumberTimeRemaining = 30;
+            whackANumberScoreDisplay.textContent = `النقاط: ${whackANumberScore}`;
+            whackANumberTimeDisplay.textContent = `الوقت: ${whackANumberTimeRemaining} ثانية`;
+            whackANumberGameRunning = true;
+            whackANumberStartButton.classList.add('hidden');
+            whackANumberResetButton.classList.add('hidden');
+            createNumberHoles(); // Ensure holes are created and clear
+            setNewTargetNumber();
+
+            whackANumberTimerId = setInterval(() => {
+                whackANumberTimeRemaining--;
+                whackANumberTimeDisplay.textContent = `الوقت: ${whackANumberTimeRemaining} ثانية`;
+                if (whackANumberTimeRemaining <= 0) {
+                    clearInterval(whackANumberTimerId);
+                    clearInterval(whackANumberInterval);
+                    whackANumberGameRunning = false;
+                    whackANumberTimeDisplay.textContent = `انتهى الوقت!`;
+                    whackANumberStartButton.classList.remove('hidden');
+                    whackANumberResetButton.classList.remove('hidden');
+                    alertUser(whackANumberEndMessages[whackANumberEndMessageIndex].replace('${score}', whackANumberScore));
+                    whackANumberEndMessageIndex = (whackANumberEndMessageIndex + 1) % whackANumberEndMessages.length;
+                    document.querySelectorAll('.number-display').forEach(d => d.classList.remove('up'));
+                }
+            }, 1000);
+
+            whackANumberInterval = setInterval(showNumber, 1000);
+        }
+
+        function resetWhackANumberGame() {
+            clearInterval(whackANumberTimerId);
+            clearInterval(whackANumberInterval);
+            whackANumberGameRunning = false;
+            whackANumberScore = 0;
+            whackANumberTimeRemaining = 30;
+            whackANumberScoreDisplay.textContent = `النقاط: 0`;
+            whackANumberTimeDisplay.textContent = `الوقت: 30 ثانية`;
+            whackANumberTargetDisplay.textContent = '';
+            document.querySelectorAll('.number-display').forEach(d => d.classList.remove('up'));
+            whackANumberStartButton.classList.remove('hidden');
+            whackANumberResetButton.classList.add('hidden');
+        }
+
+        whackANumberStartButton.addEventListener('click', startWhackANumberGame);
+        whackANumberResetButton.addEventListener('click', resetWhackANumberGame);
+
+
+        // New Game 4: Reaction Time Game Logic
+        const reactionButton = document.getElementById('reactionButton');
+        const reactionMessage = document.getElementById('reactionMessage');
+        const reactionTimeDisplay = document.getElementById('reactionTimeDisplay');
+        const reactionStartButton = document.getElementById('reactionStartButton');
+        const reactionResetButton = document.getElementById('reactionResetButton');
+
+        let reactionGameTimeout;
+        let reactionGameStartTime;
+        let reactionGameActive = false;
+        let reactionGameReady = false;
+        let reactionWinMessageIndex = 0;
+        const reactionWinMessages = [
+            'كفو! ردة فعلك سريعة! ${time} مللي ثانية! ⚡',
+            'ممتاز! ${time} مللي ثانية! ⏱️',
+            'أحسنتِ! ${time} مللي ثانية! 🚀'
+        ];
+
+        function startReactionGame() {
+            reactionGameActive = true;
+            reactionGameReady = false;
+            reactionMessage.textContent = 'استعدي...';
+            reactionTimeDisplay.textContent = '';
+            reactionButton.textContent = 'انتظري...';
+            reactionButton.classList.remove('go');
+            reactionButton.classList.add('ready');
+            reactionStartButton.classList.add('hidden');
+            reactionResetButton.classList.add('hidden');
+
+            const randomDelay = Math.random() * 3000 + 1000; // 1 to 4 seconds
+            reactionGameTimeout = setTimeout(() => {
+                reactionGameReady = true;
+                reactionButton.textContent = 'اضغطي الآن!';
+                reactionButton.classList.remove('ready');
+                reactionButton.classList.add('go');
+                reactionGameStartTime = Date.now();
+            }, randomDelay);
+        }
+
+        function handleReactionClick() {
+            if (!reactionGameActive) return;
+
+            if (reactionGameReady) {
+                const reactionTime = Date.now() - reactionGameStartTime;
+                reactionTimeDisplay.textContent = reactionWinMessages[reactionWinMessageIndex].replace('${time}', reactionTime);
+                reactionWinMessageIndex = (reactionWinMessageIndex + 1) % reactionWinMessages.length;
+                reactionMessage.textContent = 'أحسنتِ!';
+                reactionGameActive = false;
+                reactionResetButton.classList.remove('hidden');
+            } else {
+                clearTimeout(reactionGameTimeout);
+                reactionMessage.textContent = 'ضغطتِ مبكرًا جداً! حاولي مرة أخرى.';
+                reactionButton.textContent = 'اضغطي للبدء';
+                reactionButton.classList.remove('ready', 'go');
+                reactionGameActive = false;
+                reactionResetButton.classList.remove('hidden');
+                reactionTimeDisplay.textContent = '';
+            }
+        }
+
+        function resetReactionGame() {
+            clearTimeout(reactionGameTimeout);
+            reactionGameActive = false;
+            reactionGameReady = false;
+            reactionMessage.textContent = '';
+            reactionTimeDisplay.textContent = '';
+            reactionButton.textContent = 'اضغطي للبدء';
+            reactionButton.classList.remove('ready', 'go');
+            reactionStartButton.classList.remove('hidden');
+            reactionResetButton.classList.add('hidden');
+        }
+
+        reactionStartButton.addEventListener('click', startReactionGame);
+        reactionButton.addEventListener('click', handleReactionClick);
+        reactionResetButton.addEventListener('click', resetReactionGame);
+
+        // New Game 5: Memory Sequence Game Logic
+        const sequenceButtons = document.querySelectorAll('.sequence-button');
+        const sequenceStatusDisplay = document.querySelector('.sequence-status');
+        const sequenceStartButton = document.getElementById('sequenceStartButton');
+        const sequenceResetButton = document.getElementById('sequenceResetButton');
+
+        const sequenceColors = ['red', 'green', 'blue', 'yellow'];
+        let gameSequence = [];
+        let playerSequence = [];
+        let level = 1;
+        let canClick = false;
+        let sequenceGameActive = false;
+        let sequenceWinMessageIndex = 0;
+        const sequenceWinMessages = [
+            'كفو! أكملتِ المستوى ${level}! 💡',
+            'ممتاز! انتقلتِ للمستوى ${level}! 🧠',
+            'رائع! ذاكرتك قوية في المستوى ${level}! 🌟'
+        ];
+        const sequenceLoseMessages = [
+            'خطأ! حاولي مرة أخرى. 😔',
+            'لم تكن هذه هي التسلسل الصحيح. 🔄',
+            'فشلت هذه الجولة. لا بأس، جربي مجدداً! 💔'
+        ];
+        let sequenceLoseMessageIndex = 0;
+
+        function initializeMemorySequenceGame() {
+            gameSequence = [];
+            playerSequence = [];
+            level = 1;
+            canClick = false;
+            sequenceGameActive = false;
+            sequenceStatusDisplay.textContent = `المستوى: ${level}`;
+            sequenceStartButton.classList.remove('hidden');
+            sequenceResetButton.classList.add('hidden');
+            sequenceButtons.forEach(button => {
+                button.removeEventListener('click', handleSequenceClick);
+                button.classList.remove('highlight');
+            });
+        }
+
+        function startGameSequence() {
+            sequenceGameActive = true;
+            sequenceStartButton.classList.add('hidden');
+            sequenceResetButton.classList.add('hidden'); // Hide reset button during game
+            sequenceButtons.forEach(button => button.addEventListener('click', handleSequenceClick));
+            playSequence();
+        }
+
+        function playSequence() {
+            canClick = false;
+            playerSequence = [];
+            sequenceStatusDisplay.textContent = `المستوى: ${level}`;
+
+            // Add a new random color to the sequence
+            gameSequence.push(sequenceColors[Math.floor(Math.random() * sequenceColors.length)]);
+
+            let i = 0;
+            const highlightInterval = setInterval(() => {
+                highlightButton(gameSequence[i]);
+                i++;
+                if (i >= gameSequence.length) {
+                    clearInterval(highlightInterval);
+                    canClick = true;
+                    sequenceStatusDisplay.textContent = `المستوى: ${level} | دورك!`;
+                }
+            }, 800); // Time between highlights
+        }
+
+        function highlightButton(color) {
+            const button = document.querySelector(`[data-color="${color}"]`);
+            button.classList.add('highlight');
+            // Play a sound if available (Tone.js or simple audio element)
+            // For now, just visual highlight
+            setTimeout(() => {
+                button.classList.remove('highlight');
+            }, 400); // Highlight duration
+        }
+
+        function handleSequenceClick(event) {
+            if (!canClick) return;
+
+            const clickedColor = event.target.dataset.color;
+            playerSequence.push(clickedColor);
+            highlightButton(clickedColor); // Highlight player's click
+
+            const currentClickIndex = playerSequence.length - 1;
+
+            if (playerSequence[currentClickIndex] === gameSequence[currentClickIndex]) {
+                if (playerSequence.length === gameSequence.length) {
+                    // Player completed the sequence for this level
+                    canClick = false;
+                    sequenceStatusDisplay.textContent = sequenceWinMessages[sequenceWinMessageIndex].replace('${level}', level);
+                    sequenceWinMessageIndex = (sequenceWinMessageIndex + 1) % sequenceWinMessages.length;
+                    level++;
+                    setTimeout(playSequence, 1500); // Start next level after a delay
+                }
+            } else {
+                // Player made a mistake
+                sequenceGameActive = false;
+                canClick = false;
+                sequenceStatusDisplay.textContent = sequenceLoseMessages[sequenceLoseMessageIndex];
+                sequenceLoseMessageIndex = (sequenceLoseMessageIndex + 1) % sequenceLoseMessages.length;
+                sequenceResetButton.classList.remove('hidden');
+                sequenceButtons.forEach(button => button.removeEventListener('click', handleSequenceClick));
+            }
+        }
+
+        sequenceStartButton.addEventListener('click', startGameSequence);
+        sequenceResetButton.addEventListener('click', initializeMemorySequenceGame);
+
+        // New Game: Match 3 (Candy Crush-like) Logic
+        const match3Grid = document.getElementById('match3Grid');
+        const match3ScoreDisplay = document.querySelector('.match3-score');
+        const match3MovesDisplay = document.querySelector('.match3-moves');
+        const match3StartButton = document.getElementById('match3StartButton');
+        const match3ResetButton = document.getElementById('match3ResetButton');
+
+        const match3Emojis = ['🍓', '🍇', '🍋', '🍒', '🍊', '🍏']; // Emojis for candies
+        const gridSize = 8;
+        let match3Board = [];
+        let match3Score = 0;
+        let match3Moves = 20;
+        let selectedCell = null; // Stores the first clicked cell
+        let isProcessingMatch = false; // To prevent new clicks during match processing
+        let match3GameRunning = false;
+        const match3EndMessages = [
+            'كفو! انتهت الجولة! جبتِ ${score} نقطة! 🏆',
+            'انتهت الحركات! نقاطك: ${score}! 🌟',
+            'ممتاز! نقاطك: ${score}! 🎉'
+        ];
+        let match3EndMessageIndex = 0;
+
+
+        function initializeMatch3Game() {
+            match3Score = 0;
+            match3Moves = 20;
+            match3ScoreDisplay.textContent = `النقاط: ${match3Score}`;
+            match3MovesDisplay.textContent = `الحركات المتبقية: ${match3Moves}`;
+            match3Board = [];
+            selectedCell = null;
+            isProcessingMatch = false;
+            match3GameRunning = true;
+            match3StartButton.classList.add('hidden');
+            match3ResetButton.classList.add('hidden');
+            createMatch3Board();
+            checkForInitialMatches();
+        }
+
+        function createMatch3Board() {
+            match3Grid.innerHTML = '';
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('match3-cell');
+                cell.dataset.index = i;
+                cell.draggable = true;
+                cell.addEventListener('dragstart', handleMatch3DragStart);
+                cell.addEventListener('dragover', handleMatch3DragOver);
+                cell.addEventListener('drop', handleMatch3Drop);
+                cell.addEventListener('dragend', handleMatch3DragEnd);
+                match3Grid.appendChild(cell);
+                match3Board.push(''); // Placeholder for emoji
+            }
+            fillBoard();
+        }
+
+        function fillBoard() {
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                if (match3Board[i] === '') {
+                    const randomEmoji = match3Emojis[Math.floor(Math.random() * match3Emojis.length)];
+                    match3Board[i] = randomEmoji;
+                    match3Grid.children[i].textContent = randomEmoji;
+                }
+            }
+        }
+
+        function checkForInitialMatches() {
+            let hasMatches = true;
+            while (hasMatches) {
+                hasMatches = false;
+                const matches = findMatches();
+                if (matches.length > 0) {
+                    removeMatches(matches);
+                    dropEmojis();
+                    fillBoard();
+                    hasMatches = true; // Keep checking until no more matches
+                }
+            }
+        }
+
+        function handleMatch3DragStart(e) {
+            if (!match3GameRunning || isProcessingMatch) {
+                e.preventDefault();
+                return;
+            }
+            selectedCell = e.target;
+            e.dataTransfer.setData('text/plain', selectedCell.dataset.index); // Store index of dragged cell
+            selectedCell.classList.add('dragging');
+        }
+
+        function handleMatch3DragOver(e) {
+            e.preventDefault(); // Allow drop
+        }
+
+        function handleMatch3Drop(e) {
+            e.preventDefault();
+            if (!match3GameRunning || isProcessingMatch) return;
+
+            const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            const droppedCell = e.target;
+            const droppedIndex = parseInt(droppedCell.dataset.index);
+
+            // Check if they are adjacent
+            const draggedRow = Math.floor(draggedIndex / gridSize);
+            const draggedCol = draggedIndex % gridSize;
+            const droppedRow = Math.floor(droppedIndex / gridSize);
+            const droppedCol = droppedIndex % gridSize;
+
+            const isAdjacent = (
+                (Math.abs(draggedRow - droppedRow) === 1 && draggedCol === droppedCol) || // Vertical
+                (Math.abs(draggedCol - droppedCol) === 1 && draggedRow === droppedRow)    // Horizontal
+            );
+
+            if (isAdjacent) {
+                swapCells(draggedIndex, droppedIndex);
+                match3Moves--;
+                match3MovesDisplay.textContent = `الحركات المتبقية: ${match3Moves}`;
+                setTimeout(processBoard, 500); // Process board after swap
+            } else {
+                // If not adjacent, just reset visual
+                selectedCell.classList.remove('dragging');
+                selectedCell = null;
+            }
+        }
+
+        function handleMatch3DragEnd(e) {
+            selectedCell.classList.remove('dragging');
+            selectedCell = null;
+        }
+
+        function swapCells(index1, index2) {
+            const tempEmoji = match3Board[index1];
+            match3Board[index1] = match3Board[index2];
+            match3Board[index2] = tempEmoji;
+
+            match3Grid.children[index1].textContent = match3Board[index1];
+            match3Grid.children[index2].textContent = match3Board[index2];
+        }
+
+        function processBoard() {
+            isProcessingMatch = true;
+            const matches = findMatches();
+
+            if (matches.length > 0) {
+                removeMatches(matches);
+                setTimeout(() => {
+                    dropEmojis();
+                    fillBoard();
+                    setTimeout(processBoard, 500); // Recursively process until no more matches
+                }, 600); // Wait for fadeOut animation
+            } else {
+                // No matches after swap, swap back if it was a valid move but no match
+                // For simplicity, we won't swap back in this version.
+                // In a full game, you'd check if the swap *created* a match.
+                isProcessingMatch = false;
+                checkGameEndMatch3();
+            }
+        }
+
+        function findMatches() {
+            const matches = [];
+            // Check horizontal matches
+            for (let r = 0; r < gridSize; r++) {
+                for (let c = 0; c < gridSize - 2; c++) {
+                    const idx = r * gridSize + c;
+                    const emoji1 = match3Board[idx];
+                    const emoji2 = match3Board[idx + 1];
+                    const emoji3 = match3Board[idx + 2];
+                    if (emoji1 && emoji1 === emoji2 && emoji2 === emoji3) {
+                        matches.push(idx, idx + 1, idx + 2);
+                    }
+                }
+            }
+            // Check vertical matches
+            for (let c = 0; c < gridSize; c++) {
+                for (let r = 0; r < gridSize - 2; r++) {
+                    const idx = r * gridSize + c;
+                    const emoji1 = match3Board[idx];
+                    const emoji2 = match3Board[idx + gridSize];
+                    const emoji3 = match3Board[idx + 2 * gridSize];
+                    if (emoji1 && emoji1 === emoji2 && emoji2 === emoji3) {
+                        matches.push(idx, idx + gridSize, idx + 2 * gridSize);
+                    }
+                }
+            }
+            return [...new Set(matches)]; // Return unique indices
+        }
+
+        function removeMatches(matchedIndices) {
+            matchedIndices.forEach(index => {
+                match3Board[index] = ''; // Clear emoji from board
+                match3Grid.children[index].classList.add('matched'); // Add class for animation
+                match3Score++; // Increase score for each removed emoji
+            });
+            match3ScoreDisplay.textContent = `النقاط: ${match3Score}`;
+        }
+
+        function dropEmojis() {
+            for (let c = 0; c < gridSize; c++) {
+                let emptyCells = [];
+                for (let r = gridSize - 1; r >= 0; r--) {
+                    const idx = r * gridSize + c;
+                    if (match3Board[idx] === '') {
+                        emptyCells.push(idx);
+                    } else if (emptyCells.length > 0) {
+                        // Move emoji down
+                        const targetIdx = emptyCells.shift();
+                        match3Board[targetIdx] = match3Board[idx];
+                        match3Grid.children[targetIdx].textContent = match3Board[idx];
+                        match3Grid.children[targetIdx].classList.remove('matched'); // Ensure no matched class
+                        match3Board[idx] = '';
+                        match3Grid.children[idx].textContent = '';
+                        emptyCells.push(idx); // The cell where emoji was moved from becomes empty
+                    }
+                }
+            }
+        }
+
+        function checkGameEndMatch3() {
+            if (match3Moves <= 0 && findMatches().length === 0) {
+                match3GameRunning = false;
+                alertUser(match3EndMessages[match3EndMessageIndex].replace('${score}', match3Score));
+                match3EndMessageIndex = (match3EndMessageIndex + 1) % match3EndMessages.length;
+                match3ResetButton.classList.remove('hidden');
+            }
+        }
+
+        match3StartButton.addEventListener('click', initializeMatch3Game);
+        match3ResetButton.addEventListener('click', initializeMatch3Game);
+
+
+        // New Game: Drag and Drop Sorting Logic
+        const sortingItemsContainer = document.getElementById('sortingItems');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        const sortingMessage = document.querySelector('.sorting-message');
+        const sortingScoreDisplay = document.querySelector('.sorting-score');
+        const sortingResetButton = document.getElementById('sortingResetButton');
+
+        const sortingCategories = {
+            fruits: ['🍎', '🍌', '🍓', '🍇', '🍍'],
+            animals: ['🦁', '🐵', '🐘', '🦒', '🐼'],
+            vehicles: ['🚗', '🚌', '🚲', '✈️', '🚢']
+        };
+        let currentSortingItems = [];
+        let sortingScore = 0;
+        let totalItems = 0;
+        let draggedItem = null;
+
+        function initializeSortingGame() {
+            sortingScore = 0;
+            totalItems = 0;
+            sortingScoreDisplay.textContent = `النقاط: ${sortingScore}`;
+            sortingMessage.textContent = '';
+            sortingItemsContainer.innerHTML = '';
+            dropZones.forEach(zone => zone.innerHTML = zone.dataset.category === 'fruits' ? 'فواكه 🍎' : (zone.dataset.category === 'animals' ? 'حيوانات 🦁' : 'مركبات 🚗')); // Reset drop zone content
+
+            currentSortingItems = [];
+            const allItems = [];
+            for (const category in sortingCategories) {
+                sortingCategories[category].forEach(item => {
+                    allItems.push({ emoji: item, category: category });
+                });
+            }
+            shuffleArray(allItems); // Shuffle all items
+
+            // Pick a subset of items for the game
+            const itemsToDisplay = allItems.slice(0, 6); // Display 6 random items
+            totalItems = itemsToDisplay.length;
+
+            itemsToDisplay.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('draggable-item');
+                itemElement.textContent = item.emoji;
+                itemElement.draggable = true;
+                itemElement.dataset.category = item.category;
+                itemElement.addEventListener('dragstart', handleSortingDragStart);
+                sortingItemsContainer.appendChild(itemElement);
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleSortingDragOver);
+                zone.addEventListener('dragleave', handleSortingDragLeave);
+                zone.addEventListener('drop', handleSortingDrop);
+            });
+        }
+
+        function handleSortingDragStart(e) {
+            draggedItem = e.target;
+            e.dataTransfer.setData('text/plain', draggedItem.dataset.category);
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleSortingDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            e.target.classList.add('drag-over');
+        }
+
+        function handleSortingDragLeave(e) {
+            e.target.classList.remove('drag-over');
+        }
+
+        function handleSortingDrop(e) {
+            e.preventDefault();
+            e.target.classList.remove('drag-over');
+
+            const droppedCategory = e.target.dataset.category;
+            const draggedCategory = draggedItem.dataset.category;
+
+            if (droppedCategory === draggedCategory) {
+                sortingScore++;
+                sortingScoreDisplay.textContent = `النقاط: ${sortingScore}`;
+                sortingMessage.textContent = 'كفو! صح عليك! 🎉';
+                draggedItem.remove(); // Remove item from display
+                checkSortingGameEnd();
+            } else {
+                sortingMessage.textContent = 'خطأ! هذا مو مكانه. 😔';
+            }
+        }
+
+        function checkSortingGameEnd() {
+            if (sortingItemsContainer.children.length === 0) {
+                sortingMessage.textContent = `خلصتِ كل التصنيفات! نقاطك النهائية: ${sortingScore} من ${totalItems}! 🏆`;
+            }
+        }
+
+        sortingResetButton.addEventListener('click', initializeSortingGame);
+
+        // New Game: Quick Click Logic
+        const clickArea = document.getElementById('clickArea');
+        const targetButton = document.getElementById('targetButton');
+        const quickClickScoreDisplay = document.querySelector('.quick-click-score');
+        const quickClickTimeDisplay = document.querySelector('.quick-click-time');
+        const quickClickStartButton = document.getElementById('quickClickStartButton');
+        const quickClickResetButton = document.getElementById('quickClickResetButton');
+
+        let quickClickScore = 0;
+        let quickClickTimeRemaining = 15;
+        let quickClickTimerId;
+        let quickClickGameRunning = false;
+        let quickClickEndMessageIndex = 0;
+        const quickClickEndMessages = [
+            'كفو! جبتِ ${score} نقطة! 🏆',
+            'انتهى الوقت! نقاطك: ${score}! ✨',
+            'ممتاز! نقاطك: ${score}! 🎉'
+        ];
+
+        function positionTargetButton() {
+            if (!quickClickGameRunning) return;
+            const areaWidth = clickArea.offsetWidth;
+            const areaHeight = clickArea.offsetHeight;
+            const buttonSize = targetButton.offsetWidth;
+
+            const randomX = Math.random() * (areaWidth - buttonSize);
+            const randomY = Math.random() * (areaHeight - buttonSize);
+
+            targetButton.style.left = `${randomX}px`;
+            targetButton.style.top = `${randomY}px`;
+            targetButton.classList.remove('hidden');
+        }
+
+        function handleTargetButtonClick() {
+            if (!quickClickGameRunning) return;
+            quickClickScore++;
+            quickClickScoreDisplay.textContent = `النقاط: ${quickClickScore}`;
+            targetButton.classList.add('hidden'); // Hide immediately
+            positionTargetButton(); // Show in new position
+        }
+
+        function startQuickClickGame() {
+            quickClickScore = 0;
+            quickClickTimeRemaining = 15;
+            quickClickScoreDisplay.textContent = `النقاط: ${quickClickScore}`;
+            quickClickTimeDisplay.textContent = `الوقت: ${quickClickTimeRemaining} ثانية`;
+            quickClickGameRunning = true;
+            quickClickStartButton.classList.add('hidden');
+            quickClickResetButton.classList.add('hidden');
+            
+            positionTargetButton(); // Initial position
+
+            quickClickTimerId = setInterval(() => {
+                quickClickTimeRemaining--;
+                quickClickTimeDisplay.textContent = `الوقت: ${quickClickTimeRemaining} ثانية`;
+                if (quickClickTimeRemaining <= 0) {
+                    clearInterval(quickClickTimerId);
+                    quickClickGameRunning = false;
+                    quickClickTimeDisplay.textContent = `انتهى الوقت!`;
+                    targetButton.classList.add('hidden'); // Hide button
+                    quickClickStartButton.classList.remove('hidden');
+                    quickClickResetButton.classList.remove('hidden');
+                    alertUser(quickClickEndMessages[quickClickEndMessageIndex].replace('${score}', quickClickScore));
+                    quickClickEndMessageIndex = (quickClickEndMessageIndex + 1) % quickClickEndMessages.length;
+                }
+            }, 1000);
+        }
+
+        function resetQuickClickGame() {
+            clearInterval(quickClickTimerId);
+            quickClickGameRunning = false;
+            quickClickScore = 0;
+            quickClickTimeRemaining = 15;
+            quickClickScoreDisplay.textContent = `النقاط: 0`;
+            quickClickTimeDisplay.textContent = `الوقت: 15 ثانية`;
+            targetButton.classList.add('hidden');
+            quickClickStartButton.classList.remove('hidden');
+            quickClickResetButton.classList.add('hidden');
+        }
+
+        targetButton.addEventListener('click', handleTargetButtonClick);
+        quickClickStartButton.addEventListener('click', startQuickClickGame);
+        quickClickResetButton.addEventListener('click', resetQuickClickGame);
+
+        // New Game: Maze Game Logic
+        const mazeCanvas = document.getElementById('mazeCanvas');
+        const mazeCtx = mazeCanvas.getContext('2d');
+        const mazeMessage = document.querySelector('.maze-message');
+        const mazeResetButton = document.getElementById('mazeResetButton');
+
+        const TILE_SIZE = 30; // Size of each cell in the maze
+        const PLAYER_SIZE = TILE_SIZE * 0.7;
+        const WALL_COLOR = '#443e52';
+        const PATH_COLOR = '#221c27';
+        const PLAYER_COLOR = '#f8bbd0'; // Pink
+        const END_COLOR = '#81c784'; // Green
+        const START_COLOR = '#b3e5fc'; // Light Blue
+
+        // Simple fixed maze (0 = path, 1 = wall, 2 = start, 3 = end)
+        const maze = [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ];
+
+        let player = { x: 1, y: 1 }; // Start position (column, row)
+        let mazeGameActive = false;
+
+        function resizeMazeCanvas() {
+            // Calculate canvas size based on maze dimensions and tile size
+            mazeCanvas.width = maze[0].length * TILE_SIZE;
+            mazeCanvas.height = maze.length * TILE_SIZE;
+            drawMaze();
+        }
+
+        function drawMaze() {
+            mazeCtx.clearRect(0, 0, mazeCanvas.width, mazeCanvas.height);
+            for (let row = 0; row < maze.length; row++) {
+                for (let col = 0; col < maze[row].length; col++) {
+                    const cellType = maze[row][col];
+                    const x = col * TILE_SIZE;
+                    const y = row * TILE_SIZE;
+
+                    if (cellType === 1) { // Wall
+                        mazeCtx.fillStyle = WALL_COLOR;
+                    } else if (cellType === 2) { // Start
+                        mazeCtx.fillStyle = START_COLOR;
+                    } else if (cellType === 3) { // End
+                        mazeCtx.fillStyle = END_COLOR;
+                    } else { // Path
+                        mazeCtx.fillStyle = PATH_COLOR;
+                    }
+                    mazeCtx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+                }
+            }
+            drawPlayer();
+        }
+
+        function drawPlayer() {
+            mazeCtx.fillStyle = PLAYER_COLOR;
+            const playerX = player.x * TILE_SIZE + (TILE_SIZE - PLAYER_SIZE) / 2;
+            const playerY = player.y * TILE_SIZE + (TILE_SIZE - PLAYER_SIZE) / 2;
+            mazeCtx.beginPath();
+            mazeCtx.arc(playerX + PLAYER_SIZE / 2, playerY + PLAYER_SIZE / 2, PLAYER_SIZE / 2, 0, Math.PI * 2);
+            mazeCtx.fill();
+        }
+
+        function movePlayer(dx, dy) {
+            if (!mazeGameActive) return;
+
+            const newPlayerX = player.x + dx;
+            const newPlayerY = player.y + dy;
+
+            // Check boundaries
+            if (newPlayerX >= 0 && newPlayerX < maze[0].length &&
+                newPlayerY >= 0 && newPlayerY < maze.length) {
+                
+                const targetCellType = maze[newPlayerY][newPlayerX];
+
+                if (targetCellType !== 1) { // If not a wall
+                    player.x = newPlayerX;
+                    player.y = newPlayerY;
+                    drawMaze(); // Redraw maze with new player position
+
+                    if (targetCellType === 3) { // Reached end
+                        mazeMessage.textContent = 'كفو! وصلتِ للنهاية! 🎉';
+                        mazeGameActive = false;
+                    }
+                } else {
+                    mazeMessage.textContent = 'هذا جدار! حاولي مسار ثاني. 🚧';
+                }
+            }
+        }
+
+        function handleMazeKeyDown(e) {
+            if (!mazeGameActive) return;
+            switch (e.key) {
+                case 'ArrowUp':
+                    movePlayer(0, -1);
+                    break;
+                case 'ArrowDown':
+                    movePlayer(0, 1);
+                    break;
+                case 'ArrowLeft':
+                    movePlayer(-1, 0);
+                    break;
+                case 'ArrowRight':
+                    movePlayer(1, 0);
+                    break;
+            }
+        }
+        window.addEventListener('keydown', handleMazeKeyDown);
+
+        // Touch swipe for Maze Game
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        mazeCanvas.addEventListener('touchstart', (e) => {
+            if (!mazeGameActive) return;
+            e.preventDefault();
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: false });
+
+        mazeCanvas.addEventListener('touchend', (e) => {
+            if (!mazeGameActive) return;
+            e.preventDefault();
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+
+            const dx = touchEndX - touchStartX;
+            const dy = touchEndY - touchStartY;
+
+            // Determine swipe direction
+            if (Math.abs(dx) > Math.abs(dy)) { // Horizontal swipe
+                if (dx > 0) movePlayer(1, 0); // Right
+                else movePlayer(-1, 0); // Left
+            } else { // Vertical swipe
+                if (dy > 0) movePlayer(0, 1); // Down
+                else movePlayer(0, -1); // Up
+            }
+        }, { passive: false });
+
+
+        function initializeMazeGame() {
+            player = { x: 1, y: 1 }; // Reset player position
+            mazeGameActive = true;
+            mazeMessage.textContent = 'استخدمي الأسهم أو اسحبي للتحرك.';
+            resizeMazeCanvas(); // Redraw maze
+        }
+
+        mazeResetButton.addEventListener('click', initializeMazeGame);
 
 
         // Initial setup on window load
@@ -2271,7 +4219,14 @@
             initializeMemoryGame(); // Initialize Memory Match game on load
             createMoleHoles(); // Create mole holes for Whack-a-Mole
             initializeColorMatchGame(); // Initialize Color Match game on load
-            // Bubble Pop game starts with a button click, no initial setup needed here
+            createNumberHoles(); // Create holes for Whack-a-Number
+            resizeCanvas(); // Initial resize for drawing canvas
+            initializeMemorySequenceGame(); // Initialize Memory Sequence game
+            initializeMatch3Game(); // Initialize Match 3 game
+            initializeSortingGame(); // Initialize Sorting Game
+            initializeQuickClickGame(); // Initialize Quick Click Game
+            initializeMazeGame(); // Initialize Maze Game
+            // Bubble Pop game and Catch Stars game start with a button click, no initial setup needed here
         };
     </script>
 </body>
